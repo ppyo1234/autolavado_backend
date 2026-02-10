@@ -5,11 +5,11 @@ from configure.db import Base
 class Servicio(Base):
     __tablename__ = "c_servido"
 
-    se_id = Column(Integer, primary_key=True, index=True)
-    se_precio = Column(DECIMAL(18, 2))
-    se_estatus = Column(String(45))
-    se_descripcion = Column(String(850))
-    se_nombre = Column(String(80))
-
-    # Relación
-    registros = relationship("AutoServicio", back_populates="servicio")
+    id = Column(Integer, primary_key=True, index=True)
+    nombre = Column(String(50), nullable=False)
+    descripcion = Column(String(200), nullable=True)
+    costo = Column(DECIMAL(10, 2), nullable=False)
+    duracion = Column(Integer, nullable=False)  
+    estado = Column(Boolean, default=True)
+    fecha_registro = Column(DateTime)
+    fecha_actualizacion = Column(DateTime)
