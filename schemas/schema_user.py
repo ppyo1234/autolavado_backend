@@ -1,26 +1,88 @@
 from pydantic import BaseModel, EmailStr
 from datetime import datetime
-from typing import Optional
 
 class UsuarioBase(BaseModel):
+    rol_id: int
     nombre: str
-    email: EmailStr
-    activo: bool = True
-    rol_id: int # Relación con la tabla Rol
+    primer_apellido: str
+    segundo_apellido: str | None = None
+    direccion: str | None = None
+    correo_electronico: EmailStr
+    numero_telefono: str | None = None
+    estatus: bool = True
 
-class UsuarioCreate(UsuarioBase):
-    password: str # Solo pedimos password al crear
+
+class UsuarioCreate(BaseModel):
+    rol_id: int
+    nombre: str
+    primer_apellido: str
+    segundo_apellido: str | None = None
+    direccion: str | None = None
+    correo_electronico: EmailStr
+    numero_telefono: str | None = None
+    contrasena: str
+
 
 class UsuarioUpdate(BaseModel):
-    nombre: Optional[str] = None
-    email: Optional[EmailStr] = None
-    password: Optional[str] = None
-    activo: Optional[bool] = None
-    rol_id: Optional[int] = None
+    rol_id: int | None = None
+    nombre: str | None = None
+    primer_apellido: str | None = None
+    segundo_apellido: str | None = None
+    direccion: str | None = None
+    correo_electronico: EmailStr | None = None
+    numero_telefono: str | None = None
+    estatus: bool | None = None
+    contrasena: str | None = None
+
 
 class Usuario(UsuarioBase):
     id: int
     fecha_registro: datetime
+    fecha_actualizacion: datetime
 
     class Config:
-        orm_mode = True
+        from pydantic import BaseModel, EmailStr
+        from datetime import datetime
+
+
+        class UsuarioBase(BaseModel):
+            rol_id: int
+            nombre: str
+            primer_apellido: str
+            segundo_apellido: str | None = None
+            direccion: str | None = None
+            correo_electronico: EmailStr
+            numero_telefono: str | None = None
+            estatus: bool = True
+
+
+        class UsuarioCreate(BaseModel):
+            rol_id: int
+            nombre: str
+            primer_apellido: str
+            segundo_apellido: str | None = None
+            direccion: str | None = None
+            correo_electronico: EmailStr
+            numero_telefono: str | None = None
+            contrasena: str
+
+
+        class UsuarioUpdate(BaseModel):
+            rol_id: int | None = None
+            nombre: str | None = None
+            primer_apellido: str | None = None
+            segundo_apellido: str | None = None
+            direccion: str | None = None
+            correo_electronico: EmailStr | None = None
+            numero_telefono: str | None = None
+            estatus: bool | None = None
+            contrasena: str | None = None
+
+
+        class Usuario(UsuarioBase):
+            id: int
+            fecha_registro: datetime
+            fecha_actualizacion: datetime
+
+            class Config:
+                orm_mode = True

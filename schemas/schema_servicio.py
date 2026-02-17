@@ -1,28 +1,34 @@
 from pydantic import BaseModel
 from datetime import datetime
-from typing import Optional
 
-# Base: Campos compartidos
+
 class ServicioBase(BaseModel):
     nombre: str
-    descripcion: Optional[str] = None
-    precio: float  
+    descripcion: str | None = None
+    costo: float
+    duracion: int | None = None
+    estado: bool = True
 
-# Create: Lo que recibes al crear
-class ServicioCreate(ServicioBase):
-    pass
 
-# Update: Todo opcional para permitir actualizaciones parciales
+class ServicioCreate(BaseModel):
+    nombre: str
+    descripcion: str | None = None
+    costo: float
+    duracion: int | None = None
+
+
 class ServicioUpdate(BaseModel):
-    nombre: Optional[str] = None
-    descripcion: Optional[str] = None
-    precio: Optional[float] = None
+    nombre: str | None = None
+    descripcion: str | None = None
+    costo: float | None = None
+    duracion: int | None = None
+    estado: bool | None = None
 
-# Response: Lo que devuelves al cliente (incluye ID y fechas)
+
 class Servicio(ServicioBase):
-    id: int
+    Id: int
     fecha_registro: datetime
-    fecha_actualizacion: Optional[datetime] = None
+    fecha_actualizacion: datetime
 
     class Config:
         orm_mode = True

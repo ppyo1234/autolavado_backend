@@ -1,22 +1,45 @@
 from pydantic import BaseModel
-from typing import Optional
+from datetime import datetime
 
 class VehiculoBase(BaseModel):
-    placa: str
-    marca: str
+    usuario_id: int
     modelo: str
-    color: str
-    tipo: str # Ej: Sedan, SUV, Camioneta
+    marca: str
+    placa: str
+    serie: str | None = None
+    color: str | None = None
+    tipo: str | None = None
+    anio: int | None = None
+    estatus: bool = True
 
-class VehiculoCreate(VehiculoBase):
-    cliente_id: Optional[int] = None # Opcional si registras el auto sin cliente primero
+
+class VehiculoCreate(BaseModel):
+    usuario_id: int
+    modelo: str
+    marca: str
+    placa: str
+    serie: str | None = None
+    color: str | None = None
+    tipo: str | None = None
+    anio: int | None = None
+
 
 class VehiculoUpdate(BaseModel):
-    color: Optional[str] = None
-    cliente_id: Optional[int] = None
+    usuario_id: int | None = None
+    modelo: str | None = None
+    marca: str | None = None
+    placa: str | None = None
+    serie: str | None = None
+    color: str | None = None
+    tipo: str | None = None
+    anio: int | None = None
+    estatus: bool | None = None
+
 
 class Vehiculo(VehiculoBase):
     id: int
-    
+    fecha_registro: datetime
+    fecha_actualizacion: datetime
+
     class Config:
         orm_mode = True
