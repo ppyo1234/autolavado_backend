@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
-import crud.crud_usuario as crud
+import crud.crud_usuarios as crud
 import schemas.schema_usuario as schema
 import config.db
 
@@ -30,7 +30,7 @@ def obtener_usuario(usuario_id: int, db: Session = Depends(get_db)):
 
 @router.post("/", response_model=schema.Usuario)
 def crear_usuario(data: schema.UsuarioCreate, db: Session = Depends(get_db)):
-    if crud.get_usuario_por_correo(db, data.correo_electronico):
+    if crud.get_usuario_by_correo(db, data.correo_electronico):
         raise HTTPException(status_code=400, detail="Correo ya registrado")
     return crud.create_usuario(db, data)
 

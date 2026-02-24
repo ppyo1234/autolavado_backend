@@ -26,7 +26,7 @@ class ServicioUpdate(BaseModel):
 
 
 class Servicio(ServicioBase):
-    Id: int
+    id: int
     fecha_registro: datetime
     fecha_actualizacion: datetime
 

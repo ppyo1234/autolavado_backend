@@ -16,8 +16,7 @@ db_name = os.getenv("DB_NAME")
 
 # 3. Construir la URL dinámicamente
 # Nota: A veces se requiere el driver, ej: mysql+pymysql://...
-SQLALCHEMY_DATABASE_URL = f"mysql://{user}:{password}@{host}:{port}/{db_name}"
-
+SQLALCHEMY_DATABASE_URL = f"mysql+mysqlconnector://{user}:{password}@{host}:{port}/{db_name}"
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
 # Corregido: es sessionmaker, no sessionmarker

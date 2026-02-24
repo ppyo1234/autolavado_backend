@@ -1,6 +1,6 @@
-from sqlalchemy import Column, Integer, String, DECIMAL
+from sqlalchemy import Column, Integer, String, DECIMAL, Boolean, DateTime
 from sqlalchemy.orm import relationship
-from configure.db import Base
+from config.db import Base
 
 class Servicio(Base):
     __tablename__ = "c_servido"
@@ -13,3 +13,6 @@ class Servicio(Base):
     estado = Column(Boolean, default=True)
     fecha_registro = Column(DateTime)
     fecha_actualizacion = Column(DateTime)
+
+    
+    registros = relationship("AutoServicio", back_populates="servicio")

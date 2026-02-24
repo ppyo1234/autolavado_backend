@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
-from configure.db import Base
+from config.db import Base
 
 class Cliente(Base):
     __tablename__ = "c_cliente"

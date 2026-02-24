@@ -1,34 +1,30 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from datetime import datetime
-from typing import Optional
 
 class UsuarioBase(BaseModel):
-    Nombre:str
-    primer_apellido:str
-    segundo_apellido:str
-    direccion:str
-    correo_electronico:str
-    numero_telefono:str
-    contrasena:str
-    estatus:bool
-    fecha_registro:datetime
-    fecha_actualizacion:datetime
+    rol_id: int
+    nombre: str
+    primer_apellido: str
+    segundo_apellido: str | None = None
+    direccion: str | None = None
+    correo_electronico: EmailStr
+    numero_telefono: str | None = None
+    estatus: bool = True
 
 class UsuarioCreate(UsuarioBase):
-    pass
+    contrasena: str
 
 class UsuarioUpdate(UsuarioBase):
-    pass
+    contrasena: str | None = None
 
 class Usuario(UsuarioBase):
     Id: int
+    fecha_registro: datetime | None = None
+    fecha_actualizacion: datetime | None = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class UsuarioLogin(BaseModel):
-    numero_telefono: str
     correo_electronico: str
     contrasena: str
-
-

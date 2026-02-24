@@ -1,18 +1,21 @@
-from sqlalchemy import column, Integer , String, Boolean, DateTime, Enum, Date
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, Enum, Date, ForeignKey
 from sqlalchemy.orm import relationship
-from configure.db import Base
+from config.db import Base
 
-class User(Base):
+
+class Usuario(Base):
     __tablename__ = "tbb_usuarios"
-    Id = column(Integer, primary_key=True, index=True)
-    Rol_Id = column(Integer,foreignkey="tbc_roles.Id")
-    nombre = column(String(60))
-    primer_apellido = column(String(60))
-    segundo_apellido = column(String(60))
-    direccion = column(String(100))
-    correo_electronico = column(String(100))
-    numero_telefono = column(String(20))
-    contrasena = column(String(100))
-    estatus = column(Boolean, default=True)
-    fecha_registro = column(DateTime)
-    fecha_actualizacion = column(DateTime)
+    Id = Column(Integer, primary_key=True, index=True)
+    Rol_Id = Column(Integer,ForeignKey("tbc_roles.Id"))
+    nombre = Column(String(60))
+    primer_apellido = Column(String(60))
+    segundo_apellido = Column(String(60))
+    direccion = Column(String(100))
+    correo_electronico = Column(String(100))
+    numero_telefono = Column(String(20))
+    contrasena = Column(String(100))
+    estatus = Column(Boolean, default=True)
+    fecha_registro = Column(DateTime)
+    fecha_actualizacion = Column(DateTime)
+
+    servicios_realizados = relationship("AutoServicio", back_populates="usuario")

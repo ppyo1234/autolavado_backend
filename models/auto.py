@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
-from configure.db import Base
+from config.db import Base
 
 class Auto(Base):
     __tablename__ = "c_auto"

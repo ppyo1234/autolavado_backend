@@ -1,13 +1,11 @@
-from sqlalchemy.orm import Session
 import models.vehiculo as model
+from sqlalchemy.orm import Session
 
 def get_vehiculos(db: Session, skip: int = 0, limit: int = 100):
     return db.query(model.Vehiculo).offset(skip).limit(limit).all()
 
-
 def get_vehiculo_by_id(db: Session, vehiculo_id: int):
-    return db.query(model.Vehiculo).filter(model.Vehiculo.id == vehiculo_id).first()
-
+    return db.query(model.Vehiculo).filter(model.Vehiculo.Id == vehiculo_id).first()
 
 def create_vehiculo(db: Session, data):
     nuevo = model.Vehiculo(**data.dict())
@@ -15,7 +13,6 @@ def create_vehiculo(db: Session, data):
     db.commit()
     db.refresh(nuevo)
     return nuevo
-
 
 def update_vehiculo(db: Session, vehiculo_id: int, data):
     vehiculo = get_vehiculo_by_id(db, vehiculo_id)
@@ -28,7 +25,6 @@ def update_vehiculo(db: Session, vehiculo_id: int, data):
     db.commit()
     db.refresh(vehiculo)
     return vehiculo
-
 
 def delete_vehiculo(db: Session, vehiculo_id: int):
     vehiculo = get_vehiculo_by_id(db, vehiculo_id)

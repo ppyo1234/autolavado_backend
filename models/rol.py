@@ -1,7 +1,7 @@
 '''Esta clase permite el modelo para los tipos de roles'''
 from sqlalchemy import Column, Integer , String, Boolean, DateTime, Enum, Date
 from sqlalchemy.orm import relationship
-from configure.db import Base
+from config.db import Base
 
 class Rol(Base):
     __tablename__ = "tbc_roles"

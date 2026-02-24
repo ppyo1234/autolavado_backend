@@ -1,10 +1,10 @@
-from sqlchemy import Column, Integer, String, Boolean, DateTime,foreignkey
-from configure.db import Base
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey
+from config.db import Base 
 
 class Vehiculo(Base):
     __tablename__ = "tbb_vehiculos"
     Id = Column(Integer, primary_key=True, index=True)
-    usuario_id = Column(Integer,foreignkey="tbb_usuarios.Id")
+    usuario_id = Column(Integer,ForeignKey("tbb_usuarios.Id"))
     marca = Column(String(50))
     modelo = Column(String(50))
     placa = Column(String(20))
