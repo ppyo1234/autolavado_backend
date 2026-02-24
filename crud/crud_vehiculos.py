@@ -1,4 +1,5 @@
 import models.vehiculo as model
+from datetime import datetime
 from sqlalchemy.orm import Session
 
 def get_vehiculos(db: Session, skip: int = 0, limit: int = 100):
@@ -7,12 +8,22 @@ def get_vehiculos(db: Session, skip: int = 0, limit: int = 100):
 def get_vehiculo_by_id(db: Session, vehiculo_id: int):
     return db.query(model.Vehiculo).filter(model.Vehiculo.Id == vehiculo_id).first()
 
+
 def create_vehiculo(db: Session, data):
-    nuevo = model.Vehiculo(**data.dict())
+    # Convertimos los datos del esquema a un diccionario
+    datos = data.model_dump() # o data.dict() si tienes versión anterior
+    
+    # Inyectamos las fechas
+    datos["fecha_registro"] = datetime.utcnow()
+    datos["fecha_actualizacion"] = datetime.utcnow()
+    
+    nuevo = model.Vehiculo(**datos)
     db.add(nuevo)
     db.commit()
     db.refresh(nuevo)
     return nuevo
+
+
 
 def update_vehiculo(db: Session, vehiculo_id: int, data):
     vehiculo = get_vehiculo_by_id(db, vehiculo_id)

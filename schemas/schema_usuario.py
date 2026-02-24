@@ -18,7 +18,7 @@ class UsuarioUpdate(UsuarioBase):
     contrasena: str | None = None
 
 class Usuario(UsuarioBase):
-    Id: int
+    id: int
     fecha_registro: datetime | None = None
     fecha_actualizacion: datetime | None = None
 

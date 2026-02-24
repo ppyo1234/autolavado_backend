@@ -5,8 +5,8 @@ from config.db import Base
 
 class Usuario(Base):
     __tablename__ = "tbb_usuarios"
-    Id = Column(Integer, primary_key=True, index=True)
-    Rol_Id = Column(Integer,ForeignKey("tbc_roles.Id"))
+    id = Column(Integer, primary_key=True, index=True)
+    rol_id = Column(Integer, ForeignKey("tbc_roles.Id"))
     nombre = Column(String(60))
     primer_apellido = Column(String(60))
     segundo_apellido = Column(String(60))

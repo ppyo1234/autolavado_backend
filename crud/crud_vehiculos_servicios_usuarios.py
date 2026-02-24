@@ -1,40 +1,47 @@
 from sqlalchemy.orm import Session
-import models.vehiculo as model
+import models.autoservicio as model
 
-def get_vehiculos(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(model.Vehiculo).offset(skip).limit(limit).all()
+def get_registros(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(model.AutoServicio).offset(skip).limit(limit).all()
 
+def get_registro_by_id(db: Session, registro_id: int):
+    return db.query(model.AutoServicio).filter(model.AutoServicio.as_id == registro_id).first()
 
-def get_vehiculo_by_id(db: Session, vehiculo_id: int):
-    return db.query(model.Vehiculo).filter(model.Vehiculo.id == vehiculo_id).first()
-
-
-def create_vehiculo(db: Session, data):
-    nuevo = model.Vehiculo(**data.dict())
+def create_registro(db: Session, data):
+    # ¡Traducción perfecta a los nombres de tu modelo!
+    nuevo = model.AutoServicio(
+        au_id=data.vehiculo_id,  
+        se_id=data.servicio_id,  
+        us_id=data.operador_id,  
+        as_fecha=data.fecha,     # <-- Cambiado a as_fecha
+        as_hora=data.hora        # <-- Cambiado a as_hora
+    )
+    
     db.add(nuevo)
     db.commit()
     db.refresh(nuevo)
     return nuevo
 
-
-def update_vehiculo(db: Session, vehiculo_id: int, data):
-    vehiculo = get_vehiculo_by_id(db, vehiculo_id)
-    if not vehiculo:
+def update_registro(db: Session, registro_id: int, data):
+    registro = get_registro_by_id(db, registro_id)
+    if not registro:
         return None
 
-    for key, value in data.dict(exclude_unset=True).items():
-        setattr(vehiculo, key, value)
+    registro.au_id = data.vehiculo_id
+    registro.se_id = data.servicio_id
+    registro.us_id = data.operador_id
+    registro.as_fecha = data.fecha  # <-- Cambiado a as_fecha
+    registro.as_hora = data.hora    # <-- Cambiado a as_hora
 
     db.commit()
-    db.refresh(vehiculo)
-    return vehiculo
+    db.refresh(registro)
+    return registro
 
-
-def delete_vehiculo(db: Session, vehiculo_id: int):
-    vehiculo = get_vehiculo_by_id(db, vehiculo_id)
-    if not vehiculo:
+def delete_registro(db: Session, registro_id: int):
+    registro = get_registro_by_id(db, registro_id)
+    if not registro:
         return None
 
-    db.delete(vehiculo)
+    db.delete(registro)
     db.commit()
-    return vehiculo
+    return registro

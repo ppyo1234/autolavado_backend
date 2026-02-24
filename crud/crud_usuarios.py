@@ -1,8 +1,9 @@
 from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 from datetime import datetime
+from sqlalchemy import or_  # <-- Importamos esto para la búsqueda doble
 import models.user as model
-import schemas.schema_usuario as schemas # Asegúrate de importar tus schemas
+import schemas.schema_usuario as schemas 
 
 pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
 
@@ -16,7 +17,7 @@ def create_usuario(db: Session, usuario: schemas.UsuarioCreate):
     hashed_password = pwd_context.hash(usuario.contrasena)
     
     db_usuario = model.Usuario(
-        Rol_Id=usuario.rol_id,           # CORREGIDO: Coincide con Rol_Id en models/user.py
+        rol_id=usuario.rol_id,           
         nombre=usuario.nombre,
         primer_apellido=usuario.primer_apellido,
         segundo_apellido=usuario.segundo_apellido,
@@ -34,18 +35,13 @@ def create_usuario(db: Session, usuario: schemas.UsuarioCreate):
     return db_usuario
 
 def update_usuario(db: Session, usuario_id: int, usuario: schemas.UsuarioUpdate):
-    # CORREGIDO: Tu modelo usa "Id" con mayúscula
-    db_usuario = db.query(model.Usuario).filter(model.Usuario.Id == usuario_id).first()
+    # CORREGIDO: id en minúscula
+    db_usuario = db.query(model.Usuario).filter(model.Usuario.id == usuario_id).first()
     if not db_usuario:
         return None
 
-    # Usamos model_dump() si es Pydantic V2
     for key, value in usuario.model_dump(exclude_unset=True).items():
-        # Mapeo manual si los nombres del schema y modelo no coinciden
-        if key == "rol_id":
-            setattr(db_usuario, "Rol_Id", value)
-        else:
-            setattr(db_usuario, key, value)
+        setattr(db_usuario, key, value)
 
     db_usuario.fecha_actualizacion = datetime.utcnow()
     db.commit()
@@ -53,11 +49,29 @@ def update_usuario(db: Session, usuario_id: int, usuario: schemas.UsuarioUpdate)
     return db_usuario
 
 def delete_usuario(db: Session, usuario_id: int):
-    # CORREGIDO: Tu modelo usa "Id" con mayúscula
-    db_usuario = db.query(model.Usuario).filter(model.Usuario.Id == usuario_id).first()
+    # CORREGIDO: id en minúscula
+    db_usuario = db.query(model.Usuario).filter(model.Usuario.id == usuario_id).first()
     if not db_usuario:
         return None
 
     db.delete(db_usuario)
     db.commit()
+    return db_usuario
+
+# FUNCIÓN COMPLETADA
+def authenticate_user(db: Session, email_o_tel: str, contrasena: str):
+    # Busca un usuario donde el correo O el teléfono coincidan
+    db_usuario = db.query(model.Usuario).filter(
+        or_(
+            model.Usuario.correo_electronico == email_o_tel,
+            model.Usuario.numero_telefono == email_o_tel
+        )
+    ).first()
+    
+    # Si no existe el usuario, o la contraseña no hace match, regresamos None
+    if not db_usuario:
+        return None
+    if not pwd_context.verify(contrasena, db_usuario.contrasena):
+        return None
+        
     return db_usuario

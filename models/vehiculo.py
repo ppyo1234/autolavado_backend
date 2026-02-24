@@ -3,8 +3,8 @@ from config.db import Base
 
 class Vehiculo(Base):
     __tablename__ = "tbb_vehiculos"
-    Id = Column(Integer, primary_key=True, index=True)
-    usuario_id = Column(Integer,ForeignKey("tbb_usuarios.Id"))
+    id = Column(Integer, primary_key=True, index=True)
+    usuario_id = Column(Integer,ForeignKey("tbb_usuarios.id"))
     marca = Column(String(50))
     modelo = Column(String(50))
     placa = Column(String(20))

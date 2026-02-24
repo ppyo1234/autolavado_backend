@@ -30,7 +30,7 @@ def obtener(registro_id: int, db: Session = Depends(get_db)):
 
 @router.post("/", response_model=schema.AutoServicio)
 def crear(data: schema.AutoServicioCreate, db: Session = Depends(get_db)):
-    return crud.create(db, data)
+    return crud.create_registro(db, data)
 
 
 @router.put("/{registro_id}", response_model=schema.AutoServicio)
