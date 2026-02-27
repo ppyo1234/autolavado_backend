@@ -3,8 +3,13 @@ from sqlalchemy.orm import Session
 import crud.crud_vehiculos_servicios_usuarios as crud
 import schemas.schema_vehiculos_servicios_usuarios as schema
 import config.db
+from utils.security import get_current_active_user
 
-router = APIRouter(prefix="/vehiculos-servicios-usuarios", tags=["AutoServicio"])
+router = APIRouter(
+    prefix="/vehiculos-servicios-usuarios", 
+    tags=["AutoServicio"],
+    dependencies=[Depends(get_current_active_user)]
+)
 
 
 def get_db():

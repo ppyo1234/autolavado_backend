@@ -24,7 +24,9 @@ def login_for_access_token(
 ):
     # form_data.username puede recibir el correo o el teléfono en este caso,
     # ya que nuestra función `authenticate_user` acepta cualquiera de los dos
-    user = crud_usuarios.authenticate_user(db, form_data.username, form_data.password)
+    username_clean = form_data.username.strip()
+    password_clean = form_data.password.strip()
+    user = crud_usuarios.authenticate_user(db, username_clean, password_clean)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

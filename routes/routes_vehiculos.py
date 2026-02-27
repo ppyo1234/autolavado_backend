@@ -5,7 +5,12 @@ import schemas.schema_vehiculo as schema
 import config.db
 from utils.security import get_current_active_user
 import models.user as models
-router = APIRouter(prefix="/vehiculos", tags=["Vehiculos"])
+
+router = APIRouter(
+    prefix="/vehiculos", 
+    tags=["Vehiculos"],
+    dependencies=[Depends(get_current_active_user)]
+)
 
 
 def get_db():

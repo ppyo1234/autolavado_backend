@@ -3,8 +3,13 @@ from sqlalchemy.orm import Session
 import crud.crud_servicios as crud
 import schemas.schema_servicio as schema
 import config.db
+from utils.security import get_current_active_user
 
-router = APIRouter(prefix="/servicios", tags=["Servicios"])
+router = APIRouter(
+    prefix="/servicios", 
+    tags=["Servicios"],
+    dependencies=[Depends(get_current_active_user)]
+)
 
 
 def get_db():
