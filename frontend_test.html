@@ -1,190 +1,718 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test Frontend - API Autolavado</title>
+    <title>API Autolavado - Consola</title>
+    <!-- Incluir fuente Poppins para aspecto moderno -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Incluir iconos de FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        :root {
+            --primary-bg: #0f172a;
+            --secondary-bg: #1e293b;
+            --accent-color: #3b82f6;
+            --accent-hover: #2563eb;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --success-color: #10b981;
+            --error-color: #ef4444;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
             margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
         }
-        .container {
-            max-width: 600px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        h1, h2 {
-            color: #333;
-        }
-        form {
+
+        body {
+            background-color: var(--primary-bg);
+            color: var(--text-main);
+            min-height: 100vh;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            background-image:
+                radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
+                radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 0.3) 0, transparent 50%),
+                radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 0.2) 0, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .card {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent-color);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+            transform-origin: bottom;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .card:hover::before {
+            transform: scaleY(1);
+        }
+
+        .card h2 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
             gap: 10px;
+            color: #e2e8f0;
         }
+
+        .card h2 i {
+            color: var(--accent-color);
+        }
+
+        .input-group {
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
         input {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            outline: none;
         }
+
+        input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        input::placeholder {
+            color: #64748b;
+        }
+
         button {
-            padding: 10px;
-            background-color: #007bff;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, var(--accent-color) 0%, #2563eb 100%);
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
         }
+
+        button::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+
         button:hover {
-            background-color: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.4);
         }
+
+        button:active::after {
+            animation: ripple 1s ease-out;
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: scale(20, 20);
+                opacity: 0;
+            }
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .btn-outline:hover {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
         .response-box {
-            margin-top: 15px;
-            background: #e9ecef;
-            padding: 10px;
-            border-radius: 4px;
-            font-family: monospace;
+            margin-top: 1rem;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            color: #a7f3d0;
             white-space: pre-wrap;
             word-wrap: break-word;
+            max-height: 250px;
+            overflow-y: auto;
+            position: relative;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
-        .hidden {
+
+        .response-box::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .response-box::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+
+        .response-box::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+
+        .response-box.show {
+            display: block;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .status-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 0.75rem;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .status-success {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+        }
+
+        .status-error {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+        }
+
+        .status-loading {
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+        }
+
+        .loader {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, .3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
             display: none;
         }
-        .section {
-            margin-top: 30px;
-            border-top: 2px solid #ddd;
-            padding-top: 20px;
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .button-text.loading-hide {
+            display: none;
+        }
+
+        .token-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: #ef4444;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .token-indicator.active {
+            color: #10b981;
+        }
+
+        @media (min-width: 768px) {
+            .grid-layout {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .card.full-width {
+                grid-column: span 2;
+            }
         }
     </style>
 </head>
+
 <body>
 
-<div class="container">
-    <h1>Prueba API Autolavado</h1>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fa-solid fa-car-wash"></i> Ppyo API</h1>
+            <p>Centro de Control y Pruebas del Autolavado</p>
+        </div>
 
-    <!-- Sección de Estado -->
-    <div class="section">
-        <h2>1. Probar Conexión (Raíz '/')</h2>
-        <button onclick="checkStatus()">Consultar Estado Servidor</button>
-        <div id="statusResult" class="response-box hidden"></div>
+        <div class="grid-layout">
+            <!-- 1. Estado del Servidor -->
+            <div class="card">
+                <h2><i class="fa-solid fa-server"></i> Sistema Base</h2>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+                    Verifica la conexión con el endpoint principal ('/') de la API.
+                </p>
+                <button id="btnStatus" onclick="checkStatus()">
+                    <span class="button-text"><i class="fa-solid fa-wifi"></i> Verificar Estado</span>
+                    <div class="loader"></div>
+                </button>
+                <div id="statusResult" class="response-box"></div>
+            </div>
+
+            <!-- 2. Login -->
+            <div class="card">
+                <h2><i class="fa-solid fa-fingerprint"></i> Autenticación</h2>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+                    Inicia sesión para generar y almacenar tu JWT automático.
+                </p>
+                <form id="loginForm">
+                    <div class="input-group">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="text" id="username" placeholder="Correo electrónico o Teléfono" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="password" placeholder="Contraseña" required>
+                    </div>
+                    <button type="submit" id="btnLogin">
+                        <span class="button-text"><i class="fa-solid fa-right-to-bracket"></i> Generar Token</span>
+                        <div class="loader"></div>
+                    </button>
+                </form>
+                <div id="loginResult" class="response-box"></div>
+
+                <div class="token-indicator" id="tokenStatus">
+                    <i class="fa-solid fa-circle-xmark"></i> Sin Token Activo
+                </div>
+            </div>
+
+            <!-- 3. Rutas Protegidas -->
+            <div class="card full-width">
+                <h2><i class="fa-solid fa-shield-halved"></i> Accesos Seguros (JWT)</h2>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+                    Prueba un endpoint protegido por el token Bearer generado.
+                </p>
+                <div style="display: flex; gap: 10px;">
+                    <button id="btnProfile" onclick="getUserInfo()" class="btn-outline">
+                        <span class="button-text"><i class="fa-solid fa-user-astronaut"></i> Mi Perfil
+                            (/usuarios/me)</span>
+                        <div class="loader"></div>
+                    </button>
+                    <button id="btnLogout" onclick="logout()"
+                        style="background: #ef4444; width: auto; padding: 12px 20px;">
+                        <i class="fa-solid fa-power-off"></i>
+                    </button>
+                </div>
+                <div id="profileResult" class="response-box"></div>
+            </div>
+
+            <!-- 4. Crear Vehículo -->
+            <div class="card full-width">
+                <h2><i class="fa-solid fa-car"></i> Registrar Vehículo</h2>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+                    Prueba el endpoint POST /vehiculos/ para registrar un auto nuevo. (Requiere Token)
+                </p>
+                <form id="vehiculoForm">
+                    <div class="grid-layout" style="gap: 1rem; margin-bottom: 1rem;">
+                        <div class="input-group">
+                            <i class="fa-solid fa-id-badge"></i>
+                            <input type="number" id="v_usuario_id" placeholder="ID del Usuario" required>
+                        </div>
+                        <div class="input-group">
+                            <i class="fa-solid fa-car-side"></i>
+                            <input type="text" id="v_modelo" placeholder="Modelo (ej. Jetta)" required>
+                        </div>
+                        <div class="input-group">
+                            <i class="fa-solid fa-registered"></i>
+                            <input type="text" id="v_marca" placeholder="Marca (ej. VW)" required>
+                        </div>
+                        <div class="input-group">
+                            <i class="fa-solid fa-hashtag"></i>
+                            <input type="text" id="v_placa" placeholder="Placa (ej. ABC-123)" required>
+                        </div>
+                        <div class="input-group">
+                            <i class="fa-solid fa-palette"></i>
+                            <input type="text" id="v_color" placeholder="Color (Opcional)">
+                        </div>
+                    </div>
+                    <button type="submit" id="btnVehiculo">
+                        <span class="button-text"><i class="fa-solid fa-plus"></i> Guardar Vehículo</span>
+                        <div class="loader"></div>
+                    </button>
+                </form>
+                <div id="vehiculoResult" class="response-box"></div>
+            </div>
+
+        </div>
     </div>
 
-    <!-- Sección de Login -->
-    <div class="section">
-        <h2>2. Iniciar Sesión (/login)</h2>
-        <form id="loginForm">
-            <input type="text" id="username" placeholder="Correo electrónico o Teléfono" required>
-            <input type="password" id="password" placeholder="Contraseña" required>
-            <button type="submit">Iniciar Sesión</button>
-        </form>
-        <div id="loginResult" class="response-box hidden"></div>
-    </div>
+    <script>
+        const API_URL = "http://127.0.0.1:8000";
 
-    <!-- Sección de Prueba con Token -->
-    <div class="section">
-        <h2>3. Probar Autenticación (Ruta Protegida)</h2>
-        <p>Asegúrate de haber iniciado sesión para tener un token válido (se guarda automáticamente).</p>
-        <button onclick="getUserInfo()">Obtener mi información (/usuarios/perfil)</button>
-        <div id="profileResult" class="response-box hidden"></div>
-    </div>
-</div>
+        // Inicializar estado del token visualmente
+        document.addEventListener("DOMContentLoaded", () => {
+            updateTokenStatusUI();
+        });
 
-<script>
-    const API_URL = "http://127.0.0.1:8000";
+        function updateTokenStatusUI() {
+            const token = localStorage.getItem("access_token");
+            const indicator = document.getElementById("tokenStatus");
 
-    // 1. Probar conexión
-    async function checkStatus() {
-        const resultBox = document.getElementById("statusResult");
-        resultBox.classList.remove("hidden");
-        resultBox.innerText = "Cargando...";
-
-        try {
-            const response = await fetch(`${API_URL}/`);
-            const data = await response.json();
-            resultBox.innerText = JSON.stringify(data, null, 2);
-        } catch (error) {
-            resultBox.innerText = "Error de conexión: " + error.message;
-        }
-    }
-
-    // 2. Iniciar sesión
-    document.getElementById("loginForm").addEventListener("submit", async function (event) {
-        event.preventDefault();
-        
-        const usernameInput = document.getElementById("username").value;
-        const passwordInput = document.getElementById("password").value;
-        const resultBox = document.getElementById("loginResult");
-        
-        resultBox.classList.remove("hidden");
-        resultBox.innerText = "Cargando...";
-
-        // OAuth2PasswordRequestForm expects form data, not JSON
-        const formData = new URLSearchParams();
-        formData.append("username", usernameInput);
-        formData.append("password", passwordInput);
-
-        try {
-            const response = await fetch(`${API_URL}/login`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                },
-                body: formData
-            });
-
-            const data = await response.json();
-            
-            if (response.ok) {
-                // Save token slightly modified logic to localStorage
-                localStorage.setItem("access_token", data.access_token);
-                resultBox.innerText = "Token guardado en memoria:\n" + JSON.stringify(data, null, 2);
+            if (token) {
+                indicator.className = "token-indicator active";
+                indicator.innerHTML = '<i class="fa-solid fa-circle-check"></i> Token Activo en Memoria';
             } else {
-                resultBox.innerText = "Error:\n" + JSON.stringify(data, null, 2);
+                indicator.className = "token-indicator";
+                indicator.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Sin Token Activo';
             }
-        } catch (error) {
-            resultBox.innerText = "Error: " + error.message;
-        }
-    });
-
-    // 3. Probar ruta protegida
-    async function getUserInfo() {
-        const resultBox = document.getElementById("profileResult");
-        const token = localStorage.getItem("access_token");
-
-        resultBox.classList.remove("hidden");
-
-        if (!token) {
-            resultBox.innerText = "No tienes un token. Inicia sesión primero.";
-            return;
         }
 
-        resultBox.innerText = "Cargando...";
+        function toggleLoading(btnId, isLoading) {
+            const btn = document.getElementById(btnId);
+            const text = btn.querySelector('.button-text');
+            const loader = btn.querySelector('.loader');
 
-        try {
-            // Reemplaza "/usuarios/me" por cualquier ruta protegida que tengas!
-            // Por ejemplo si tuvieras un endpoint para obtener los vehículos del usuario:
-            // `${API_URL}/vehiculos/mios` 
-            // Como no conozco todas tus rutas, esta es una demostración. Reemplaza "ruta-protegida" con tu ruta real.
-            const response = await fetch(`${API_URL}/usuarios/me`, {
-                method: "GET",
-                headers: {
-                    "Authorization": `Bearer ${token}`,
-                    "Content-Type": "application/json"
+            if (isLoading) {
+                text.classList.add('loading-hide');
+                loader.style.display = 'inline-block';
+                btn.disabled = true;
+                btn.style.opacity = '0.7';
+            } else {
+                text.classList.remove('loading-hide');
+                loader.style.display = 'none';
+                btn.disabled = false;
+                btn.style.opacity = '1';
+            }
+        }
+
+        function showResponse(elementId, data, isError = false) {
+            const box = document.getElementById(elementId);
+            box.classList.add("show");
+
+            let statusBadge = '';
+            if (isError) {
+                statusBadge = '<span class="status-badge status-error">ERROR</span>';
+            } else if (data && data.status_code) {
+                statusBadge = `<span class="status-badge status-success">${data.status_code} OK</span>`;
+            } else {
+                statusBadge = '<span class="status-badge status-success">ÉXITO</span>';
+            }
+
+            // Si data es un string, lo mostramos directo, si es objeto lo formateamos
+            const content = typeof data === 'string' ? data : JSON.stringify(data, null, 2);
+
+            box.innerHTML = `${statusBadge}\n${content}`;
+        }
+
+        // 1. Probar conexión
+        async function checkStatus() {
+            toggleLoading('btnStatus', true);
+            const resultBox = document.getElementById("statusResult");
+            resultBox.classList.remove("show");
+
+            try {
+                const response = await fetch(`${API_URL}/`);
+                const data = await response.json();
+
+                // Agregar código de estado para diseño visual
+                const visualData = {
+                    status_code: response.status,
+                    ...data
+                };
+
+                showResponse("statusResult", visualData);
+            } catch (error) {
+                showResponse("statusResult", "Error de conexión:\nAsegúrate de que uvicorn esté corriendo en " + API_URL + "\n\nDetalle: " + error.message, true);
+            } finally {
+                toggleLoading('btnStatus', false);
+            }
+        }
+
+        // 2. Iniciar sesión
+        document.getElementById("loginForm").addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            toggleLoading('btnLogin', true);
+            const resultBox = document.getElementById("loginResult");
+            resultBox.classList.remove("show");
+
+            const usernameInput = document.getElementById("username").value;
+            const passwordInput = document.getElementById("password").value;
+
+            // OAuth2PasswordRequestForm expects form data
+            const formData = new URLSearchParams();
+            formData.append("username", usernameInput);
+            formData.append("password", passwordInput);
+
+            try {
+                const response = await fetch(`${API_URL}/login`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem("access_token", data.access_token);
+                    updateTokenStatusUI();
+
+                    // Ocultar token por seguridad en vista, mostrar resumen
+                    const safeData = {
+                        status_code: response.status,
+                        message: "Login exitoso",
+                        token_type: data.token_type,
+                        access_token: data.access_token.substring(0, 20) + "...[OCULTO]"
+                    };
+                    showResponse("loginResult", safeData);
+                } else {
+                    showResponse("loginResult", { error: true, code: response.status, detail: data.detail }, true);
                 }
-            });
+            } catch (error) {
+                showResponse("loginResult", "Error en la petición: " + error.message, true);
+            } finally {
+                toggleLoading('btnLogin', false);
+            }
+        });
 
-            const data = await response.json();
-            resultBox.innerText = `Status Code: ${response.status}\n\nRespuesta:\n` + JSON.stringify(data, null, 2);
-        } catch (error) {
-            resultBox.innerText = "Error: " + error.message;
+        // 3. Probar ruta protegida
+        async function getUserInfo() {
+            toggleLoading('btnProfile', true);
+            const resultBox = document.getElementById("profileResult");
+            resultBox.classList.remove("show");
+
+            const token = localStorage.getItem("access_token");
+
+            if (!token) {
+                showResponse("profileResult", "ACCESO DENEGADO:\nNo tienes un token almacenado. Inicia sesión primero en la sección de Autenticación.", true);
+                toggleLoading('btnProfile', false);
+                return;
+            }
+
+            try {
+                // Suponemos que tienes una ruta /usuarios/me para obtener info del usuario
+                // Cambia esto a una ruta que sí exista en tu backend que requiera token
+                const response = await fetch(`${API_URL}/usuarios/me`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    }
+                });
+
+                // Si es 404 (no encontrado), avisar que la ruta no existe
+                if (response.status === 404) {
+                    showResponse("profileResult", {
+                        error: true,
+                        code: 404,
+                        message: "La ruta /usuarios/me no existe en tu API.",
+                        suggestion: "Cambia la URL en la función getUserInfo() (línea ~406 del código HTML) a una ruta válida como /vehiculos/ o similar."
+                    }, true);
+                    return;
+                }
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    const visualData = { status_code: response.status, ...data };
+                    showResponse("profileResult", visualData);
+                } else {
+                    showResponse("profileResult", { error: true, code: response.status, detail: data.detail }, true);
+                }
+            } catch (error) {
+                showResponse("profileResult", "Error: " + error.message, true);
+            } finally {
+                toggleLoading('btnProfile', false);
+            }
         }
-    }
-</script>
+
+        // 4. Integrar registrar vehiculo
+        document.getElementById("vehiculoForm").addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            toggleLoading('btnVehiculo', true);
+            const resultBox = document.getElementById("vehiculoResult");
+            resultBox.classList.remove("show");
+
+            const token = localStorage.getItem("access_token");
+            if (!token) {
+                showResponse("vehiculoResult", "ACCESO DENEGADO:\nNo tienes un token almacenado. Inicia sesión primero.", true);
+                toggleLoading('btnVehiculo', false);
+                return;
+            }
+
+            const vehiculoData = {
+                usuario_id: parseInt(document.getElementById("v_usuario_id").value),
+                modelo: document.getElementById("v_modelo").value,
+                marca: document.getElementById("v_marca").value,
+                placa: document.getElementById("v_placa").value,
+                color: document.getElementById("v_color").value || null
+            };
+
+            try {
+                const response = await fetch(`${API_URL}/vehiculos/`, {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(vehiculoData)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    const visualData = { status_code: response.status, ...data };
+                    showResponse("vehiculoResult", visualData);
+                    // Opcionalmente limpiar el formulario
+                    document.getElementById("vehiculoForm").reset();
+                } else {
+                    showResponse("vehiculoResult", { error: true, code: response.status, detail: data.detail }, true);
+                }
+            } catch (error) {
+                showResponse("vehiculoResult", "Error: " + error.message, true);
+            } finally {
+                toggleLoading('btnVehiculo', false);
+            }
+        });
+
+        function logout() {
+            localStorage.removeItem("access_token");
+            updateTokenStatusUI();
+
+            const box = document.getElementById("profileResult");
+            box.classList.add("show");
+            box.innerHTML = '<span class="status-badge status-success">INFO</span>\nSesión cerrada. Token eliminado del navegador.';
+
+            // Limpiar los inputs
+            document.getElementById("username").value = "";
+            document.getElementById("password").value = "";
+        }
+    </script>
 
 </body>
+
 </html>

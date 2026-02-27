@@ -27,8 +27,8 @@ class ServicioUpdate(BaseModel):
 
 class Servicio(ServicioBase):
     id: int
-    fecha_registro: datetime
-    fecha_actualizacion: datetime
+    fecha_registro: datetime | None = None
+    fecha_actualizacion: datetime | None = None
 
     class Config:
         orm_mode = True
