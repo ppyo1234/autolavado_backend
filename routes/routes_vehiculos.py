@@ -3,7 +3,8 @@ from sqlalchemy.orm import Session
 import crud.crud_vehiculos as crud
 import schemas.schema_vehiculo as schema
 import config.db
-
+from utils.security import get_current_active_user
+import models.user as models
 router = APIRouter(prefix="/vehiculos", tags=["Vehiculos"])
 
 
@@ -29,12 +30,21 @@ def obtener_vehiculo(vehiculo_id: int, db: Session = Depends(get_db)):
 
 
 @router.post("/", response_model=schema.Vehiculo)
-def crear_vehiculo(data: schema.VehiculoCreate, db: Session = Depends(get_db)):
+def crear_vehiculo(
+    data: schema.VehiculoCreate, 
+    db: Session = Depends(get_db),
+    current_user: models.Usuario = Depends(get_current_active_user)
+):
     return crud.create_vehiculo(db, data)
 
 
 @router.put("/{vehiculo_id}", response_model=schema.Vehiculo)
-def actualizar_vehiculo(vehiculo_id: int, data: schema.VehiculoUpdate, db: Session = Depends(get_db)):
+def actualizar_vehiculo(
+    vehiculo_id: int, 
+    data: schema.VehiculoUpdate, 
+    db: Session = Depends(get_db),
+    current_user: models.Usuario = Depends(get_current_active_user)
+):
     vehiculo = crud.update_vehiculo(db, vehiculo_id, data)
     if not vehiculo:
         raise HTTPException(status_code=404, detail="Vehículo no encontrado")
@@ -42,7 +52,11 @@ def actualizar_vehiculo(vehiculo_id: int, data: schema.VehiculoUpdate, db: Sessi
 
 
 @router.delete("/{vehiculo_id}")
-def eliminar_vehiculo(vehiculo_id: int, db: Session = Depends(get_db)):
+def eliminar_vehiculo(
+    vehiculo_id: int, 
+    db: Session = Depends(get_db),
+    current_user: models.Usuario = Depends(get_current_active_user)
+):
     vehiculo = crud.delete_vehiculo(db, vehiculo_id)
     if not vehiculo:
         raise HTTPException(status_code=404, detail="Vehículo no encontrado")

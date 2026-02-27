@@ -20,6 +20,17 @@ def listar_usuarios(db: Session = Depends(get_db)):
     return crud.get_usuarios(db)
 
 
+from utils.security import get_current_active_user
+import models.user as models_user
+
+@router.get("/me", response_model=schema.Usuario)
+def obtener_usuario_actual(current_user: models_user.Usuario = Depends(get_current_active_user)):
+    """
+    Obtiene los datos del usuario actualmente autenticado (usando su Token).
+    """
+    return current_user
+
+
 @router.get("/{usuario_id}", response_model=schema.Usuario)
 def obtener_usuario(usuario_id: int, db: Session = Depends(get_db)):
     usuario = crud.get_usuario_by_id(db, usuario_id)

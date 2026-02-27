@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Frontend - API Autolavado</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .response-box {
+            margin-top: 15px;
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .hidden {
+            display: none;
+        }
+        .section {
+            margin-top: 30px;
+            border-top: 2px solid #ddd;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Prueba API Autolavado</h1>
+
+    <!-- Sección de Estado -->
+    <div class="section">
+        <h2>1. Probar Conexión (Raíz '/')</h2>
+        <button onclick="checkStatus()">Consultar Estado Servidor</button>
+        <div id="statusResult" class="response-box hidden"></div>
+    </div>
+
+    <!-- Sección de Login -->
+    <div class="section">
+        <h2>2. Iniciar Sesión (/login)</h2>
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Correo electrónico o Teléfono" required>
+            <input type="password" id="password" placeholder="Contraseña" required>
+            <button type="submit">Iniciar Sesión</button>
+        </form>
+        <div id="loginResult" class="response-box hidden"></div>
+    </div>
+
+    <!-- Sección de Prueba con Token -->
+    <div class="section">
+        <h2>3. Probar Autenticación (Ruta Protegida)</h2>
+        <p>Asegúrate de haber iniciado sesión para tener un token válido (se guarda automáticamente).</p>
+        <button onclick="getUserInfo()">Obtener mi información (/usuarios/perfil)</button>
+        <div id="profileResult" class="response-box hidden"></div>
+    </div>
+</div>
+
+<script>
+    const API_URL = "http://127.0.0.1:8000";
+
+    // 1. Probar conexión
+    async function checkStatus() {
+        const resultBox = document.getElementById("statusResult");
+        resultBox.classList.remove("hidden");
+        resultBox.innerText = "Cargando...";
+
+        try {
+            const response = await fetch(`${API_URL}/`);
+            const data = await response.json();
+            resultBox.innerText = JSON.stringify(data, null, 2);
+        } catch (error) {
+            resultBox.innerText = "Error de conexión: " + error.message;
+        }
+    }
+
+    // 2. Iniciar sesión
+    document.getElementById("loginForm").addEventListener("submit", async function (event) {
+        event.preventDefault();
+        
+        const usernameInput = document.getElementById("username").value;
+        const passwordInput = document.getElementById("password").value;
+        const resultBox = document.getElementById("loginResult");
+        
+        resultBox.classList.remove("hidden");
+        resultBox.innerText = "Cargando...";
+
+        // OAuth2PasswordRequestForm expects form data, not JSON
+        const formData = new URLSearchParams();
+        formData.append("username", usernameInput);
+        formData.append("password", passwordInput);
+
+        try {
+            const response = await fetch(`${API_URL}/login`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: formData
+            });
+
+            const data = await response.json();
+            
+            if (response.ok) {
+                // Save token slightly modified logic to localStorage
+                localStorage.setItem("access_token", data.access_token);
+                resultBox.innerText = "Token guardado en memoria:\n" + JSON.stringify(data, null, 2);
+            } else {
+                resultBox.innerText = "Error:\n" + JSON.stringify(data, null, 2);
+            }
+        } catch (error) {
+            resultBox.innerText = "Error: " + error.message;
+        }
+    });
+
+    // 3. Probar ruta protegida
+    async function getUserInfo() {
+        const resultBox = document.getElementById("profileResult");
+        const token = localStorage.getItem("access_token");
+
+        resultBox.classList.remove("hidden");
+
+        if (!token) {
+            resultBox.innerText = "No tienes un token. Inicia sesión primero.";
+            return;
+        }
+
+        resultBox.innerText = "Cargando...";
+
+        try {
+            // Reemplaza "/usuarios/me" por cualquier ruta protegida que tengas!
+            // Por ejemplo si tuvieras un endpoint para obtener los vehículos del usuario:
+            // `${API_URL}/vehiculos/mios` 
+            // Como no conozco todas tus rutas, esta es una demostración. Reemplaza "ruta-protegida" con tu ruta real.
+            const response = await fetch(`${API_URL}/usuarios/me`, {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                }
+            });
+
+            const data = await response.json();
+            resultBox.innerText = `Status Code: ${response.status}\n\nRespuesta:\n` + JSON.stringify(data, null, 2);
+        } catch (error) {
+            resultBox.innerText = "Error: " + error.message;
+        }
+    }
+</script>
+
+</body>
+</html>

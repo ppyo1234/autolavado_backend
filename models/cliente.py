@@ -14,5 +14,5 @@ class Cliente(Base):
     d_telefono = Column(String(15))
     d_password = Column(String(750))
 
-    # Relación con sus autos
-    autos = relationship("Auto", back_populates="cliente")
+    # Relación con sus autos / vehiculos (Pendiente de definir bien el back_populates)
+    # autos = relationship("Auto", back_populates="cliente")
