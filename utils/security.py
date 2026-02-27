@@ -17,7 +17,8 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 # OAuth2 esquema espera que el cliente envíe el token en el header "Authorization"
 # con el valor "Bearer <token>"
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+security = HTTPBearer()
 
 def get_db():
     db = SessionLocal()
@@ -39,7 +40,7 @@ def create_access_token(subject: Union[str, Any], expires_delta: timedelta = Non
 
 def get_current_user(
     db: Session = Depends(get_db), 
-    token: str = Depends(oauth2_scheme)
+    credentials: HTTPAuthorizationCredentials = Depends(security)
 ) -> models.Usuario:
     """Extrae el usuario del token y verifica que exista base de datos."""
     credentials_exception = HTTPException(
@@ -48,7 +49,7 @@ def get_current_user(
         headers={"WWW-Authenticate": "Bearer"},
     )
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(credentials.credentials, SECRET_KEY, algorithms=[ALGORITHM])
         correo_electronico: str = payload.get("sub")
         if correo_electronico is None:
             raise credentials_exception
