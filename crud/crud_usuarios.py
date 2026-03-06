@@ -13,6 +13,9 @@ def get_usuarios(db: Session, skip: int = 0, limit: int = 100):
 def get_usuario_by_correo(db: Session, correo: str):
     return db.query(model.Usuario).filter(model.Usuario.correo_electronico == correo).first()
 
+def get_usuario_by_id(db: Session, usuario_id: int):
+    return db.query(model.Usuario).filter(model.Usuario.id == usuario_id).first()
+
 def create_usuario(db: Session, usuario: schemas.UsuarioCreate):
     hashed_password = pwd_context.hash(usuario.contrasena)
     

@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from datetime import datetime
+from typing import Optional
 
 class VehiculoBase(BaseModel):
     usuario_id: int
@@ -38,8 +39,8 @@ class VehiculoUpdate(BaseModel):
 
 class Vehiculo(VehiculoBase):
     id: int
-    fecha_registro: datetime | None = None
-    fecha_actualizacion: datetime | None = None
+    fecha_registro: Optional[datetime] = None
+    fecha_actualizacion: Optional[datetime] = None
 
     class Config:
         orm_mode = True

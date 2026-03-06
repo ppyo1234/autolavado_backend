@@ -23,3 +23,4 @@ class AutoServicio(Base):
     vehiculo = relationship("Vehiculo")  # <-- Cambiamos 'Auto' por 'Vehiculo'
     servicio = relationship("Servicio", back_populates="registros")
     usuario = relationship("Usuario", back_populates="servicios_realizados")
+

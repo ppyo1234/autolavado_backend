@@ -12,7 +12,7 @@ def get_servicios(db: Session, skip: int = 0, limit: int = 100):
 
 def get_servicio_by_id(db: Session, servicio_id: int):
     return db.query(model.Servicio)\
-        .filter(model.Servicio.Id == servicio_id)\
+        .filter(model.Servicio.id == servicio_id)\
         .first()
 
 def create_servicio(db: Session, data):

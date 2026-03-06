@@ -27,11 +27,11 @@ def update_registro(db: Session, registro_id: int, data):
     if not registro:
         return None
 
-    registro.au_id = data.vehiculo_id
-    registro.se_id = data.servicio_id
-    registro.us_id = data.operador_id
-    registro.as_fecha = data.fecha  # <-- Cambiado a as_fecha
-    registro.as_hora = data.hora    # <-- Cambiado a as_hora
+    if data.vehiculo_id is not None: registro.au_id = data.vehiculo_id
+    if data.servicio_id is not None: registro.se_id = data.servicio_id
+    if data.operador_id is not None: registro.us_id = data.operador_id
+    if data.fecha is not None: registro.as_fecha = data.fecha
+    if data.hora is not None: registro.as_hora = data.hora
 
     db.commit()
     db.refresh(registro)

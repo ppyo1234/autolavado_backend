@@ -45,3 +45,36 @@ El servidor construirá las tablas automáticamente la primera vez que arranque.
 ## Documentación y Pruebas
 Para probar los *endpoints* (Crear usuarios, registrar vehículos, agendar servicios), abre tu navegador y visita la interfaz interactiva de Swagger:
 👉 **http://127.0.0.1:8000/docs**
+
+## Pruebas Unitarias (API Testing)
+El proyecto cuenta con una suite completa de pruebas usando `pytest`. Para ejecutar las pruebas, utiliza los siguientes comandos desde la terminal en la raíz del proyecto (asegúrate de tener tu entorno virtual activado y tu servidor MySQL local corriendo):
+
+**Ejecutar TODAS las pruebas (Recomendado):**
+```powershell
+.\venv\Scripts\python.exe -m pytest test/
+```
+
+**Ejecutar pruebas individualmente por componente:**
+* **Autenticación (Login):**
+  ```powershell
+  .\venv\Scripts\python.exe -m pytest test/test_auth.py
+  ```
+* **Usuarios:**
+  ```powershell
+  .\venv\Scripts\python.exe -m pytest test/test_usuarios.py
+  ```
+* **Servicios:**
+  ```powershell
+  .\venv\Scripts\python.exe -m pytest test/test_servicios.py
+  ```
+* **Vehículos:**
+  ```powershell
+  .\venv\Scripts\python.exe -m pytest test/test_vehiculos.py
+  ```
+* **AutoServicios (Autos, Servicios, Cajeros y Operadores):**
+  ```powershell
+  .\venv\Scripts\python.exe -m pytest test/test_vehiculos_servicios.py
+  ```
+
+> 💡 **Tip extra:** Si quieres ver mensajes muuuucho más detallados sobre los errores cuando una prueba falla, o si necesitas visualizar los mensajes de `print()` que coloques en tu código, agrega los modificadores `-v -s` al final del comando.
+> **Ejemplo:** `.\venv\Scripts\python.exe -m pytest test/ -v -s`

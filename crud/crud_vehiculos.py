@@ -6,7 +6,7 @@ def get_vehiculos(db: Session, skip: int = 0, limit: int = 100):
     return db.query(model.Vehiculo).offset(skip).limit(limit).all()
 
 def get_vehiculo_by_id(db: Session, vehiculo_id: int):
-    return db.query(model.Vehiculo).filter(model.Vehiculo.Id == vehiculo_id).first()
+    return db.query(model.Vehiculo).filter(model.Vehiculo.id == vehiculo_id).first()
 
 
 def create_vehiculo(db: Session, data):

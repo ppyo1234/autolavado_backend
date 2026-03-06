@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from datetime import datetime, time
+from typing import Optional
 
 
 class AutoServicioBase(BaseModel):
@@ -31,10 +32,16 @@ class AutoServicioUpdate(BaseModel):
     estatus: bool | None = None
 
 
-class AutoServicio(AutoServicioBase):
-    id: int
-    fecha_registro: datetime
-    fecha_actualizacion: datetime
+class AutoServicio(BaseModel):
+    as_id: int
+    au_id: int
+    se_id: int
+    us_id: int
+    as_fecha: datetime
+    as_hora: time
+    as_pagado: bool = False
+    as_monto: float | None = None
+    as_aprobado: bool = False
 
     class Config:
-        orm_mode = True
+        from_attributes = True

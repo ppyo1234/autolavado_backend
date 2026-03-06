@@ -1,11 +1,12 @@
 from pydantic import BaseModel
 from datetime import datetime
+from typing import Optional
 
 class RolBase(BaseModel):
     NombreRol: str
     estado: bool
-    fecha_registro: datetime
-    fecha_actualizacion: datetime
+    fecha_registro: Optional[datetime] = None
+    fecha_actualizacion: Optional[datetime] = None
 
 
 class RolCreate(RolBase):

@@ -1,5 +1,6 @@
 from pydantic import BaseModel, EmailStr
 from datetime import datetime
+from typing import Optional
 
 class UsuarioBase(BaseModel):
     rol_id: int
@@ -14,13 +15,21 @@ class UsuarioBase(BaseModel):
 class UsuarioCreate(UsuarioBase):
     contrasena: str
 
-class UsuarioUpdate(UsuarioBase):
+class UsuarioUpdate(BaseModel):
+    rol_id: int | None = None
+    nombre: str | None = None
+    primer_apellido: str | None = None
+    segundo_apellido: str | None = None
+    direccion: str | None = None
+    correo_electronico: EmailStr | None = None
+    numero_telefono: str | None = None
+    estatus: bool | None = None
     contrasena: str | None = None
 
 class Usuario(UsuarioBase):
     id: int
-    fecha_registro: datetime | None = None
-    fecha_actualizacion: datetime | None = None
+    fecha_registro: Optional[datetime] = None
+    fecha_actualizacion: Optional[datetime] = None
 
     class Config:
         from_attributes = True

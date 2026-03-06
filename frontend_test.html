@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API Autolavado - Consola</title>
+    <title>Ppyo Autolavado - Admin Panel</title>
     <!-- Incluir fuente Poppins para aspecto moderno -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
@@ -35,9 +35,6 @@
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
             background-image:
                 radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
                 radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 0.3) 0, transparent 50%),
@@ -45,102 +42,151 @@
             background-attachment: fixed;
         }
 
-        .container {
-            width: 100%;
-            max-width: 800px;
-            background: rgba(30, 41, 59, 0.7);
+        /* Sidebar Navegacion */
+        .sidebar {
+            width: 260px;
+            background: rgba(30, 41, 59, 0.8);
             backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--border-color);
-            border-radius: 24px;
-            padding: 2.5rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            opacity: 0;
-            transform: translateY(30px);
+            border-right: 1px solid var(--border-color);
+            padding: 2rem 0;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
         }
 
-        @keyframes slideUp {
+        .brand {
+            padding: 0 2rem 2rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 1rem;
+        }
+
+        .brand h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding: 0 1rem;
+        }
+
+        .nav-link {
+            padding: 12px 20px;
+            border-radius: 8px;
+            color: var(--text-muted);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--accent-color);
+        }
+
+        /* Contenido Principal */
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            padding: 2rem;
+            max-width: 1200px;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 2.5rem;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 2rem;
-        }
-
-        .header h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.5rem;
+        .header-section {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            gap: 15px;
+            margin-bottom: 2rem;
         }
 
-        .header p {
-            color: var(--text-muted);
-            font-size: 1.1rem;
+        .header-section h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
         }
 
+        .token-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .token-indicator.active {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        /* Cards y Formularios */
         .grid-layout {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
         }
 
         .card {
-            background: rgba(15, 23, 42, 0.4);
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(8px);
             border: 1px solid var(--border-color);
             border-radius: 16px;
             padding: 1.5rem;
-            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
         }
 
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: var(--accent-color);
-            transform: scaleY(0);
-            transition: transform 0.3s ease;
-            transform-origin: bottom;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-            border-color: rgba(59, 130, 246, 0.3);
-        }
-
-        .card:hover::before {
-            transform: scaleY(1);
-        }
-
-        .card h2 {
+        .card h3 {
             font-size: 1.25rem;
             margin-bottom: 1rem;
+            color: #e2e8f0;
             display: flex;
             align-items: center;
             gap: 10px;
-            color: #e2e8f0;
         }
 
-        .card h2 i {
+        .card h3 i {
             color: var(--accent-color);
         }
 
@@ -149,92 +195,63 @@
             position: relative;
         }
 
-        .input-group i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
             color: var(--text-muted);
         }
 
-        input {
+        .input-group i.icon-fix {
+            position: absolute;
+            left: 15px;
+            bottom: 13px;
+            color: var(--text-muted);
+        }
+
+        input,
+        select {
             width: 100%;
-            padding: 12px 15px 12px 45px;
+            padding: 10px 15px 10px 40px;
             background: rgba(15, 23, 42, 0.6);
             border: 1px solid var(--border-color);
             border-radius: 8px;
             color: var(--text-main);
-            font-size: 1rem;
+            font-size: 0.95rem;
             transition: all 0.3s ease;
             outline: none;
         }
 
-        input:focus {
+        input:focus,
+        select:focus {
             border-color: var(--accent-color);
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
         }
 
-        input::placeholder {
-            color: #64748b;
-        }
-
-        button {
-            width: 100%;
-            padding: 12px;
+        .btn {
+            padding: 10px 20px;
             background: linear-gradient(135deg, var(--accent-color) 0%, #2563eb 100%);
             color: white;
             border: none;
             border-radius: 8px;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            display: flex;
+            display: inline-flex;
             justify-content: center;
             align-items: center;
-            gap: 10px;
-            position: relative;
-            overflow: hidden;
+            gap: 8px;
         }
 
-        button::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 5px;
-            height: 5px;
-            background: rgba(255, 255, 255, 0.5);
-            opacity: 0;
-            border-radius: 100%;
-            transform: scale(1, 1) translate(-50%);
-            transform-origin: 50% 50%;
-        }
-
-        button:hover {
+        .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.4);
-        }
-
-        button:active::after {
-            animation: ripple 1s ease-out;
-        }
-
-        @keyframes ripple {
-            0% {
-                transform: scale(0, 0);
-                opacity: 0.5;
-            }
-
-            100% {
-                transform: scale(20, 20);
-                opacity: 0;
-            }
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
         }
 
         .btn-outline {
             background: transparent;
-            border: 2px solid var(--accent-color);
+            border: 1px solid var(--accent-color);
             color: var(--accent-color);
         }
 
@@ -242,80 +259,77 @@
             background: rgba(59, 130, 246, 0.1);
         }
 
-        .response-box {
-            margin-top: 1rem;
-            background: #0f172a;
-            border: 1px solid #334155;
-            border-radius: 8px;
-            padding: 1rem;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.9rem;
-            color: #a7f3d0;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            max-height: 250px;
-            overflow-y: auto;
-            position: relative;
-            display: none;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+        .btn-danger {
+            background: #ef4444;
         }
 
-        .response-box::-webkit-scrollbar {
-            width: 8px;
+        .btn-danger:hover {
+            background: #dc2626;
+            box-shadow: 0 5px 15px rgba(239, 68, 68, 0.4);
         }
 
-        .response-box::-webkit-scrollbar-track {
-            background: #0f172a;
-        }
-
-        .response-box::-webkit-scrollbar-thumb {
-            background: #334155;
-            border-radius: 4px;
-        }
-
-        .response-box.show {
-            display: block;
-            animation: fadeIn 0.4s ease forwards;
-        }
-
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-            }
-        }
-
-        .status-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 0.75rem;
-            padding: 3px 8px;
+        /* Tablas */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid var(--border-color);
             border-radius: 12px;
-            font-weight: 600;
-            font-family: 'Poppins', sans-serif;
+            margin-top: 1rem;
         }
 
-        .status-success {
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background: rgba(15, 23, 42, 0.8);
+            padding: 12px 15px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            color: #cbd5e1;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge.active {
             background: rgba(16, 185, 129, 0.2);
             color: #34d399;
         }
 
-        .status-error {
+        .badge.inactive {
             background: rgba(239, 68, 68, 0.2);
             color: #f87171;
         }
 
-        .status-loading {
-            background: rgba(59, 130, 246, 0.2);
-            color: #60a5fa;
-        }
-
         .loader {
             display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, .3);
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, .3);
             border-radius: 50%;
             border-top-color: #fff;
             animation: spin 1s ease-in-out infinite;
@@ -328,391 +342,993 @@
             }
         }
 
-        .button-text.loading-hide {
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #1e293b;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            border-left: 4px solid var(--accent-color);
+            transform: translateX(120%);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 9999;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.error {
+            border-left-color: var(--error-color);
+        }
+
+        .toast.success {
+            border-left-color: var(--success-color);
+        }
+
+        /* Modales */
+        .modal {
             display: none;
-        }
-
-        .token-indicator {
-            display: inline-flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            justify-content: center;
             align-items: center;
-            gap: 5px;
-            color: #ef4444;
-            font-size: 0.85rem;
-            margin-top: 10px;
-            transition: color 0.3s ease;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        .token-indicator.active {
-            color: #10b981;
+        .modal.show {
+            display: flex;
+            opacity: 1;
         }
 
-        @media (min-width: 768px) {
-            .grid-layout {
-                grid-template-columns: 1fr 1fr;
-            }
+        .modal-content {
+            background: #1e293b;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 500px;
+            padding: 2rem;
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
 
-            .card.full-width {
-                grid-column: span 2;
-            }
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+        }
+
+        .modal-header h3 {
+            font-size: 1.25rem;
+            color: #f8fafc;
+        }
+
+        .close-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover {
+            color: #f8fafc;
+        }
+
+        /* Botones de acción en tablas */
+        .action-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.2s;
+            margin: 0 2px;
+        }
+
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .action-btn.edit:hover {
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+            border-color: rgba(59, 130, 246, 0.4);
+        }
+
+        .action-btn.delete:hover {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+            border-color: rgba(239, 68, 68, 0.4);
         }
     </style>
 </head>
 
 <body>
 
-    <div class="container">
-        <div class="header">
-            <h1><i class="fa-solid fa-car-wash"></i> Ppyo API</h1>
-            <p>Centro de Control y Pruebas del Autolavado</p>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="brand">
+            <h1><i class="fa-solid fa-car-wash"></i> Ppyo Admin</h1>
         </div>
-
-        <div class="grid-layout">
-            <!-- 1. Estado del Servidor -->
-            <div class="card">
-                <h2><i class="fa-solid fa-server"></i> Sistema Base</h2>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
-                    Verifica la conexión con el endpoint principal ('/') de la API.
-                </p>
-                <button id="btnStatus" onclick="checkStatus()">
-                    <span class="button-text"><i class="fa-solid fa-wifi"></i> Verificar Estado</span>
-                    <div class="loader"></div>
-                </button>
-                <div id="statusResult" class="response-box"></div>
-            </div>
-
-            <!-- 2. Login -->
-            <div class="card">
-                <h2><i class="fa-solid fa-fingerprint"></i> Autenticación</h2>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
-                    Inicia sesión para generar y almacenar tu JWT automático.
-                </p>
-                <form id="loginForm">
-                    <div class="input-group">
-                        <i class="fa-solid fa-envelope"></i>
-                        <input type="text" id="username" placeholder="Correo electrónico o Teléfono" required>
-                    </div>
-                    <div class="input-group">
-                        <i class="fa-solid fa-lock"></i>
-                        <input type="password" id="password" placeholder="Contraseña" required>
-                    </div>
-                    <button type="submit" id="btnLogin">
-                        <span class="button-text"><i class="fa-solid fa-right-to-bracket"></i> Generar Token</span>
-                        <div class="loader"></div>
-                    </button>
-                </form>
-                <div id="loginResult" class="response-box"></div>
-
-                <div class="token-indicator" id="tokenStatus">
-                    <i class="fa-solid fa-circle-xmark"></i> Sin Token Activo
-                </div>
-            </div>
-
-            <!-- 3. Rutas Protegidas -->
-            <div class="card full-width">
-                <h2><i class="fa-solid fa-shield-halved"></i> Accesos Seguros (JWT)</h2>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
-                    Prueba un endpoint protegido por el token Bearer generado.
-                </p>
-                <div style="display: flex; gap: 10px;">
-                    <button id="btnProfile" onclick="getUserInfo()" class="btn-outline">
-                        <span class="button-text"><i class="fa-solid fa-user-astronaut"></i> Mi Perfil
-                            (/usuarios/me)</span>
-                        <div class="loader"></div>
-                    </button>
-                    <button id="btnLogout" onclick="logout()"
-                        style="background: #ef4444; width: auto; padding: 12px 20px;">
-                        <i class="fa-solid fa-power-off"></i>
-                    </button>
-                </div>
-                <div id="profileResult" class="response-box"></div>
-            </div>
-
-            <!-- 4. Crear Vehículo -->
-            <div class="card full-width">
-                <h2><i class="fa-solid fa-car"></i> Registrar Vehículo</h2>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
-                    Prueba el endpoint POST /vehiculos/ para registrar un auto nuevo. (Requiere Token)
-                </p>
-                <form id="vehiculoForm">
-                    <div class="grid-layout" style="gap: 1rem; margin-bottom: 1rem;">
-                        <div class="input-group">
-                            <i class="fa-solid fa-id-badge"></i>
-                            <input type="number" id="v_usuario_id" placeholder="ID del Usuario" required>
-                        </div>
-                        <div class="input-group">
-                            <i class="fa-solid fa-car-side"></i>
-                            <input type="text" id="v_modelo" placeholder="Modelo (ej. Jetta)" required>
-                        </div>
-                        <div class="input-group">
-                            <i class="fa-solid fa-registered"></i>
-                            <input type="text" id="v_marca" placeholder="Marca (ej. VW)" required>
-                        </div>
-                        <div class="input-group">
-                            <i class="fa-solid fa-hashtag"></i>
-                            <input type="text" id="v_placa" placeholder="Placa (ej. ABC-123)" required>
-                        </div>
-                        <div class="input-group">
-                            <i class="fa-solid fa-palette"></i>
-                            <input type="text" id="v_color" placeholder="Color (Opcional)">
-                        </div>
-                    </div>
-                    <button type="submit" id="btnVehiculo">
-                        <span class="button-text"><i class="fa-solid fa-plus"></i> Guardar Vehículo</span>
-                        <div class="loader"></div>
-                    </button>
-                </form>
-                <div id="vehiculoResult" class="response-box"></div>
-            </div>
-
+        <div class="nav-links">
+            <a class="nav-link active" onclick="switchTab('dashboard')"><i class="fa-solid fa-chart-pie"></i>
+                Dashboard</a>
+            <a class="nav-link" onclick="switchTab('usuarios')"><i class="fa-solid fa-users"></i> Usuarios</a>
+            <a class="nav-link" onclick="switchTab('vehiculos')"><i class="fa-solid fa-car"></i> Vehículos</a>
+            <a class="nav-link" onclick="switchTab('servicios')"><i class="fa-solid fa-spray-can-sparkles"></i>
+                Servicios</a>
+            <a class="nav-link" onclick="switchTab('autoservicios')"><i class="fa-solid fa-clipboard-list"></i>
+                AutoServicios</a>
         </div>
     </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header-section">
+            <h2 id="pageTitle">Dashboard</h2>
+            <div class="token-indicator" id="tokenStatus">
+                <i class="fa-solid fa-circle-xmark"></i> Sin Sesión Activa
+            </div>
+        </div>
+
+        <!-- TAB: DASHBOARD -->
+        <div id="tab-dashboard" class="tab-content active">
+            <div class="grid-layout">
+                <!-- Autenticación -->
+                <div class="card">
+                    <h3><i class="fa-solid fa-fingerprint"></i> Autenticación Administrativa</h3>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">
+                        Inicia sesión para obtener tu token JWT y administrar los recursos protegidos.
+                    </p>
+                    <form id="loginForm">
+                        <div class="input-group">
+                            <label>Correo / Teléfono</label>
+                            <i class="fa-solid fa-envelope icon-fix"></i>
+                            <input type="text" id="login_username" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Contraseña</label>
+                            <i class="fa-solid fa-lock icon-fix"></i>
+                            <input type="password" id="login_password" required>
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <button type="submit" class="btn" id="btnLogin" style="flex: 1;">
+                                <span><i class="fa-solid fa-right-to-bracket"></i> Iniciar Sesión</span>
+                                <div class="loader"></div>
+                            </button>
+                            <button type="button" class="btn btn-danger" onclick="logout()">
+                                <i class="fa-solid fa-power-off"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Status y Perfil -->
+                <div class="card">
+                    <h3><i class="fa-solid fa-server"></i> Estado del Sistema</h3>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">
+                        Verifica que el backend esté respondiendo correctamente.
+                    </p>
+                    <button class="btn btn-outline" onclick="checkServer()" style="margin-bottom: 20px; width: 100%;">
+                        <i class="fa-solid fa-wifi"></i> Probar Conexión al Servidor
+                    </button>
+
+                    <h3><i class="fa-solid fa-user-astronaut"></i> Sesión Actual</h3>
+                    <button class="btn btn-outline" onclick="checkProfile()" style="width: 100%;">
+                        <i class="fa-solid fa-user-check"></i> Verificar Mi Perfil (Requiere Token)
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: USUARIOS -->
+        <div id="tab-usuarios" class="tab-content">
+            <div class="card" style="margin-bottom: 1.5rem;">
+                <h3><i class="fa-solid fa-user-plus"></i> Registrar Nuevo Usuario</h3>
+                <form id="usuarioForm" class="grid-layout" style="margin-bottom: 0;">
+                    <div class="input-group">
+                        <label>Rol ID</label>
+                        <i class="fa-solid fa-id-card-clip icon-fix"></i>
+                        <input type="number" id="u_rol" value="2" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Nombre</label>
+                        <i class="fa-solid fa-a icon-fix"></i>
+                        <input type="text" id="u_nombre" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Primer Apellido</label>
+                        <i class="fa-solid fa-font icon-fix"></i>
+                        <input type="text" id="u_ape1" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Segundo Apellido (Opcional)</label>
+                        <i class="fa-solid fa-font icon-fix"></i>
+                        <input type="text" id="u_ape2">
+                    </div>
+                    <div class="input-group">
+                        <label>Correo Electrónico</label>
+                        <i class="fa-solid fa-envelope icon-fix"></i>
+                        <input type="email" id="u_correo" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Teléfono</label>
+                        <i class="fa-solid fa-phone icon-fix"></i>
+                        <input type="text" id="u_telefono">
+                    </div>
+                    <div class="input-group">
+                        <label>Contraseña</label>
+                        <i class="fa-solid fa-lock icon-fix"></i>
+                        <input type="password" id="u_pass" required>
+                    </div>
+                    <div class="input-group" style="display: flex; align-items: flex-end;">
+                        <button type="submit" class="btn" id="btnUsuario" style="width: 100%; height: 42px;">
+                            <span><i class="fa-solid fa-save"></i> Guardar</span>
+                            <div class="loader"></div>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h3><i class="fa-solid fa-list"></i> Lista de Usuarios</h3>
+                    <button class="btn btn-outline" onclick="loadUsuarios()"><i class="fa-solid fa-rotate-right"></i>
+                        Recargar</button>
+                </div>
+                <div class="table-container">
+                    <table id="tableUsuarios">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Correo</th>
+                                <th>Teléfono</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="5" style="text-align: center;">Haz clic en Recargar o inicia sesión...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: VEHICULOS -->
+        <div id="tab-vehiculos" class="tab-content">
+            <div class="card" style="margin-bottom: 1.5rem;">
+                <h3><i class="fa-solid fa-car-side"></i> Registrar Nuevo Vehículo</h3>
+                <form id="vehiculoForm" class="grid-layout" style="margin-bottom: 0;">
+                    <div class="input-group">
+                        <label>ID Usuario Dueño</label>
+                        <i class="fa-solid fa-id-badge icon-fix"></i>
+                        <input type="number" id="v_usuario" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Marca</label>
+                        <i class="fa-solid fa-registered icon-fix"></i>
+                        <input type="text" id="v_marca" placeholder="VW, Nissan..." required>
+                    </div>
+                    <div class="input-group">
+                        <label>Modelo</label>
+                        <i class="fa-solid fa-car icon-fix"></i>
+                        <input type="text" id="v_modelo" placeholder="Jetta, Versa..." required>
+                    </div>
+                    <div class="input-group">
+                        <label>Placa</label>
+                        <i class="fa-solid fa-hashtag icon-fix"></i>
+                        <input type="text" id="v_placa" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Color</label>
+                        <i class="fa-solid fa-palette icon-fix"></i>
+                        <input type="text" id="v_color">
+                    </div>
+                    <div class="input-group" style="display: flex; align-items: flex-end;">
+                        <button type="submit" class="btn" id="btnVehiculo" style="width: 100%; height: 42px;">
+                            <span><i class="fa-solid fa-save"></i> Guardar</span>
+                            <div class="loader"></div>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h3><i class="fa-solid fa-list"></i> Lista de Vehículos</h3>
+                    <button class="btn btn-outline" onclick="loadVehiculos()"><i class="fa-solid fa-rotate-right"></i>
+                        Recargar</button>
+                </div>
+                <div class="table-container">
+                    <table id="tableVehiculos">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Dueño (User ID)</th>
+                                <th>Marca / Modelo</th>
+                                <th>Placa</th>
+                                <th>Color</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="5" style="text-align: center;">Haz clic en Recargar o inicia sesión...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: SERVICIOS -->
+        <div id="tab-servicios" class="tab-content">
+            <div class="card" style="margin-bottom: 1.5rem;">
+                <h3><i class="fa-solid fa-plus-circle"></i> Registrar Nuevo Servicio</h3>
+                <form id="servicioForm" class="grid-layout" style="margin-bottom: 0;">
+                    <div class="input-group">
+                        <label>Nombre del Servicio</label>
+                        <i class="fa-solid fa-tag icon-fix"></i>
+                        <input type="text" id="s_nombre" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Descripción</label>
+                        <i class="fa-solid fa-align-left icon-fix"></i>
+                        <input type="text" id="s_desc">
+                    </div>
+                    <div class="input-group">
+                        <label>Costo ($)</label>
+                        <i class="fa-solid fa-dollar-sign icon-fix"></i>
+                        <input type="number" step="0.01" id="s_costo" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Duración Aprox. (minutos)</label>
+                        <i class="fa-solid fa-clock icon-fix"></i>
+                        <input type="number" id="s_duracion">
+                    </div>
+                    <div class="input-group" style="display: flex; align-items: flex-end;">
+                        <button type="submit" class="btn" id="btnServicio" style="width: 100%; height: 42px;">
+                            <span><i class="fa-solid fa-save"></i> Guardar</span>
+                            <div class="loader"></div>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h3><i class="fa-solid fa-list"></i> Lista de Servicios</h3>
+                    <button class="btn btn-outline" onclick="loadServicios()"><i class="fa-solid fa-rotate-right"></i>
+                        Recargar</button>
+                </div>
+                <div class="table-container">
+                    <table id="tableServicios">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Costo</th>
+                                <th>Duración (min)</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="5" style="text-align: center;">Haz clic en Recargar o inicia sesión...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: AUTOSERVICIOS -->
+        <div id="tab-autoservicios" class="tab-content">
+            <div class="card" style="margin-bottom: 1.5rem;">
+                <h3><i class="fa-solid fa-file-signature"></i> Nuevo Registro de Servicio</h3>
+                <form id="autoServicioForm" class="grid-layout" style="margin-bottom: 0;">
+                    <div class="input-group">
+                        <label>ID Vehículo</label>
+                        <i class="fa-solid fa-car icon-fix"></i>
+                        <input type="number" id="as_vehiculo" required>
+                    </div>
+                    <div class="input-group">
+                        <label>ID Servicio</label>
+                        <i class="fa-solid fa-tag icon-fix"></i>
+                        <input type="number" id="as_servicio" required>
+                    </div>
+                    <div class="input-group">
+                        <label>ID Operador (Usuario)</label>
+                        <i class="fa-solid fa-user-ninja icon-fix"></i>
+                        <input type="number" id="as_operador" required>
+                    </div>
+                    <div class="input-group" style="display: flex; align-items: flex-end;">
+                        <button type="submit" class="btn" id="btnAutoServicio" style="width: 100%; height: 42px;">
+                            <span><i class="fa-solid fa-save"></i> Generar Registro</span>
+                            <div class="loader"></div>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h3><i class="fa-solid fa-list"></i> Historial de AutoServicios</h3>
+                    <button class="btn btn-outline" onclick="loadAutoServicios()"><i
+                            class="fa-solid fa-rotate-right"></i> Recargar</button>
+                </div>
+                <div class="table-container">
+                    <table id="tableAutoServicios">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Fecha / Hora</th>
+                                <th>Vehículo ID</th>
+                                <th>Servicio ID</th>
+                                <th>Operador ID</th>
+                                <th>Pagado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="7" style="text-align: center;">Haz clic en Recargar o inicia sesión...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MAIN MODAL REUTILIZABLE -->
+    <div class="modal" id="editModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Editar Registro</h3>
+                <button class="close-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="editForm">
+                <input type="hidden" id="editId">
+                <input type="hidden" id="editType">
+
+                <div id="modalBody">
+                    <!-- Los inputs se generarán dinámicamente aquí -->
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-top: 1.5rem;">
+                    <button type="button" class="btn btn-outline" onclick="closeModal()"
+                        style="flex: 1;">Cancelar</button>
+                    <button type="submit" class="btn" id="btnSaveEdit" style="flex: 1;">
+                        <span><i class="fa-solid fa-check"></i> Actualizar</span>
+                        <div class="loader"></div>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast de Notificaciones -->
+    <div id="toast" class="toast">Mensaje de prueba</div>
 
     <script>
         const API_URL = "http://127.0.0.1:8000";
 
-        // Inicializar estado del token visualmente
+        // ==================== UI & TABS ====================
         document.addEventListener("DOMContentLoaded", () => {
-            updateTokenStatusUI();
+            updateTokenUI();
         });
 
-        function updateTokenStatusUI() {
-            const token = localStorage.getItem("access_token");
-            const indicator = document.getElementById("tokenStatus");
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
 
-            if (token) {
-                indicator.className = "token-indicator active";
-                indicator.innerHTML = '<i class="fa-solid fa-circle-check"></i> Token Activo en Memoria';
-            } else {
-                indicator.className = "token-indicator";
-                indicator.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Sin Token Activo';
+            document.getElementById('tab-' + tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+
+            const titles = {
+                'dashboard': 'Dashboard Principal',
+                'usuarios': 'Gestión de Usuarios',
+                'vehiculos': 'Gestión de Vehículos',
+                'servicios': 'Gestión de Servicios Catalogados',
+                'autoservicios': 'Historial de AutoServicios'
+            };
+            document.getElementById('pageTitle').innerText = titles[tabId];
+
+            // Auto-cargar si hay token
+            if (localStorage.getItem("access_token")) {
+                if (tabId === 'usuarios') loadUsuarios();
+                if (tabId === 'vehiculos') loadVehiculos();
+                if (tabId === 'servicios') loadServicios();
+                if (tabId === 'autoservicios') loadAutoServicios();
             }
         }
 
-        function toggleLoading(btnId, isLoading) {
+        function showToast(message, isError = false) {
+            const toast = document.getElementById("toast");
+            toast.innerText = message;
+            toast.className = `toast show ${isError ? 'error' : 'success'}`;
+            setTimeout(() => { toast.classList.remove("show"); }, 3500);
+        }
+
+        function toggleLoad(btnId, isLoading) {
             const btn = document.getElementById(btnId);
-            const text = btn.querySelector('.button-text');
+            if (!btn) return;
+            const text = btn.querySelector('span');
             const loader = btn.querySelector('.loader');
 
             if (isLoading) {
-                text.classList.add('loading-hide');
-                loader.style.display = 'inline-block';
+                if (text) text.style.display = 'none';
+                if (loader) loader.style.display = 'inline-block';
                 btn.disabled = true;
-                btn.style.opacity = '0.7';
             } else {
-                text.classList.remove('loading-hide');
-                loader.style.display = 'none';
+                if (text) text.style.display = 'inline-flex';
+                if (loader) loader.style.display = 'none';
                 btn.disabled = false;
-                btn.style.opacity = '1';
             }
         }
 
-        function showResponse(elementId, data, isError = false) {
-            const box = document.getElementById(elementId);
-            box.classList.add("show");
-
-            let statusBadge = '';
-            if (isError) {
-                statusBadge = '<span class="status-badge status-error">ERROR</span>';
-            } else if (data && data.status_code) {
-                statusBadge = `<span class="status-badge status-success">${data.status_code} OK</span>`;
+        // ==================== AUTH JWT ====================
+        function updateTokenUI() {
+            const token = localStorage.getItem("access_token");
+            const indicator = document.getElementById("tokenStatus");
+            if (token) {
+                indicator.className = "token-indicator active";
+                indicator.innerHTML = '<i class="fa-solid fa-shield-check"></i> Sesión Autorizada';
             } else {
-                statusBadge = '<span class="status-badge status-success">ÉXITO</span>';
-            }
-
-            // Si data es un string, lo mostramos directo, si es objeto lo formateamos
-            const content = typeof data === 'string' ? data : JSON.stringify(data, null, 2);
-
-            box.innerHTML = `${statusBadge}\n${content}`;
-        }
-
-        // 1. Probar conexión
-        async function checkStatus() {
-            toggleLoading('btnStatus', true);
-            const resultBox = document.getElementById("statusResult");
-            resultBox.classList.remove("show");
-
-            try {
-                const response = await fetch(`${API_URL}/`);
-                const data = await response.json();
-
-                // Agregar código de estado para diseño visual
-                const visualData = {
-                    status_code: response.status,
-                    ...data
-                };
-
-                showResponse("statusResult", visualData);
-            } catch (error) {
-                showResponse("statusResult", "Error de conexión:\nAsegúrate de que uvicorn esté corriendo en " + API_URL + "\n\nDetalle: " + error.message, true);
-            } finally {
-                toggleLoading('btnStatus', false);
+                indicator.className = "token-indicator";
+                indicator.innerHTML = '<i class="fa-solid fa-shield-xmark"></i> Sin Sesión Activa';
             }
         }
 
-        // 2. Iniciar sesión
-        document.getElementById("loginForm").addEventListener("submit", async function (event) {
-            event.preventDefault();
-
-            toggleLoading('btnLogin', true);
-            const resultBox = document.getElementById("loginResult");
-            resultBox.classList.remove("show");
-
-            const usernameInput = document.getElementById("username").value;
-            const passwordInput = document.getElementById("password").value;
-
-            // OAuth2PasswordRequestForm expects form data
-            const formData = new URLSearchParams();
-            formData.append("username", usernameInput);
-            formData.append("password", passwordInput);
+        document.getElementById("loginForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            toggleLoad("btnLogin", true);
+            const body = new URLSearchParams();
+            body.append("username", document.getElementById("login_username").value);
+            body.append("password", document.getElementById("login_password").value);
 
             try {
-                const response = await fetch(`${API_URL}/login`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded"
-                    },
-                    body: formData
+                const res = await fetch(`${API_URL}/login`, {
+                    method: 'POST',
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: body
                 });
-
-                const data = await response.json();
-
-                if (response.ok) {
+                const data = await res.json();
+                if (res.ok) {
                     localStorage.setItem("access_token", data.access_token);
-                    updateTokenStatusUI();
-
-                    // Ocultar token por seguridad en vista, mostrar resumen
-                    const safeData = {
-                        status_code: response.status,
-                        message: "Login exitoso",
-                        token_type: data.token_type,
-                        access_token: data.access_token.substring(0, 20) + "...[OCULTO]"
-                    };
-                    showResponse("loginResult", safeData);
+                    updateTokenUI();
+                    showToast("Sesión iniciada correctamente.");
                 } else {
-                    showResponse("loginResult", { error: true, code: response.status, detail: data.detail }, true);
+                    showToast(data.detail || "Credenciales incorrectas", true);
                 }
-            } catch (error) {
-                showResponse("loginResult", "Error en la petición: " + error.message, true);
+            } catch (err) {
+                showToast("Error de conexión al servidor.", true);
             } finally {
-                toggleLoading('btnLogin', false);
-            }
-        });
-
-        // 3. Probar ruta protegida
-        async function getUserInfo() {
-            toggleLoading('btnProfile', true);
-            const resultBox = document.getElementById("profileResult");
-            resultBox.classList.remove("show");
-
-            const token = localStorage.getItem("access_token");
-
-            if (!token) {
-                showResponse("profileResult", "ACCESO DENEGADO:\nNo tienes un token almacenado. Inicia sesión primero en la sección de Autenticación.", true);
-                toggleLoading('btnProfile', false);
-                return;
-            }
-
-            try {
-                // Suponemos que tienes una ruta /usuarios/me para obtener info del usuario
-                // Cambia esto a una ruta que sí exista en tu backend que requiera token
-                const response = await fetch(`${API_URL}/usuarios/me`, {
-                    method: "GET",
-                    headers: {
-                        "Authorization": `Bearer ${token}`,
-                        "Content-Type": "application/json"
-                    }
-                });
-
-                // Si es 404 (no encontrado), avisar que la ruta no existe
-                if (response.status === 404) {
-                    showResponse("profileResult", {
-                        error: true,
-                        code: 404,
-                        message: "La ruta /usuarios/me no existe en tu API.",
-                        suggestion: "Cambia la URL en la función getUserInfo() (línea ~406 del código HTML) a una ruta válida como /vehiculos/ o similar."
-                    }, true);
-                    return;
-                }
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    const visualData = { status_code: response.status, ...data };
-                    showResponse("profileResult", visualData);
-                } else {
-                    showResponse("profileResult", { error: true, code: response.status, detail: data.detail }, true);
-                }
-            } catch (error) {
-                showResponse("profileResult", "Error: " + error.message, true);
-            } finally {
-                toggleLoading('btnProfile', false);
-            }
-        }
-
-        // 4. Integrar registrar vehiculo
-        document.getElementById("vehiculoForm").addEventListener("submit", async function (event) {
-            event.preventDefault();
-
-            toggleLoading('btnVehiculo', true);
-            const resultBox = document.getElementById("vehiculoResult");
-            resultBox.classList.remove("show");
-
-            const token = localStorage.getItem("access_token");
-            if (!token) {
-                showResponse("vehiculoResult", "ACCESO DENEGADO:\nNo tienes un token almacenado. Inicia sesión primero.", true);
-                toggleLoading('btnVehiculo', false);
-                return;
-            }
-
-            const vehiculoData = {
-                usuario_id: parseInt(document.getElementById("v_usuario_id").value),
-                modelo: document.getElementById("v_modelo").value,
-                marca: document.getElementById("v_marca").value,
-                placa: document.getElementById("v_placa").value,
-                color: document.getElementById("v_color").value || null
-            };
-
-            try {
-                const response = await fetch(`${API_URL}/vehiculos/`, {
-                    method: "POST",
-                    headers: {
-                        "Authorization": `Bearer ${token}`,
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(vehiculoData)
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    const visualData = { status_code: response.status, ...data };
-                    showResponse("vehiculoResult", visualData);
-                    // Opcionalmente limpiar el formulario
-                    document.getElementById("vehiculoForm").reset();
-                } else {
-                    showResponse("vehiculoResult", { error: true, code: response.status, detail: data.detail }, true);
-                }
-            } catch (error) {
-                showResponse("vehiculoResult", "Error: " + error.message, true);
-            } finally {
-                toggleLoading('btnVehiculo', false);
+                toggleLoad("btnLogin", false);
             }
         });
 
         function logout() {
             localStorage.removeItem("access_token");
-            updateTokenStatusUI();
+            updateTokenUI();
+            showToast("Sesión cerrada.");
+        }
 
-            const box = document.getElementById("profileResult");
-            box.classList.add("show");
-            box.innerHTML = '<span class="status-badge status-success">INFO</span>\nSesión cerrada. Token eliminado del navegador.';
+        // ==================== DASHBOARD TESTS ====================
+        async function checkServer() {
+            try {
+                const res = await fetch(`${API_URL}/`);
+                if (res.ok) showToast("Servidor conectado correctamente.");
+                else showToast("El servidor respondió con error.", true);
+            } catch (e) { showToast("No se pudo conectar al servidor.", true); }
+        }
 
-            // Limpiar los inputs
-            document.getElementById("username").value = "";
-            document.getElementById("password").value = "";
+        async function checkProfile() {
+            const tk = localStorage.getItem("access_token");
+            if (!tk) return showToast("Debes iniciar sesión primero.", true);
+
+            try {
+                const res = await fetch(`${API_URL}/usuarios/me`, {
+                    headers: { "Authorization": `Bearer ${tk}` }
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    showToast(`Hola ${data.nombre} ${data.primer_apellido}! Tu sesión es válida.`);
+                } else {
+                    showToast("El token ya no es válido o expiró.", true);
+                    logout();
+                }
+            } catch (e) { showToast("Error de conexión.", true); }
+        }
+
+        // ==================== API HELPERS ====================
+        async function apiFetch(endpoint, method = 'GET', body = null) {
+            const tk = localStorage.getItem("access_token");
+            const headers = {};
+            if (tk) headers["Authorization"] = `Bearer ${tk}`;
+
+            const options = { method, headers };
+            if (body) {
+                options.headers["Content-Type"] = "application/json";
+                options.body = JSON.stringify(body);
+            }
+
+            const res = await fetch(`${API_URL}${endpoint}`, options);
+            const data = await res.json().catch(() => ({}));
+
+            if (!res.ok) {
+                let errorMsg = data.detail || 'Error en la petición API';
+                if (Array.isArray(data.detail)) {
+                    // Mapeo detallado de errores de Pydantic 422
+                    errorMsg = data.detail.map(e => `${e.loc ? e.loc.join('.') : 'Campo'}: ${e.msg}`).join(' | ');
+                } else if (typeof data.detail === 'object') {
+                    errorMsg = JSON.stringify(data.detail);
+                }
+                throw new Error(errorMsg);
+            }
+            return data;
+        }
+
+        function populateTable(tableId, dataArray, columnsMapper, apiEntity) {
+            const tbody = document.querySelector(`#${tableId} tbody`);
+            tbody.innerHTML = '';
+            if (dataArray.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="${columnsMapper.length + 1}" style="text-align:center;">No hay registros encontrados.</td></tr>`;
+                return;
+            }
+
+            dataArray.forEach(row => {
+                const tr = document.createElement('tr');
+                let html = '';
+                columnsMapper.forEach(col => {
+                    let val = row[col];
+                    if (col === 'estatus' || col === 'estado') {
+                        val = val ? '<span class="badge active">Activo</span>' : '<span class="badge inactive">Inactivo</span>';
+                    }
+                    if (typeof val === 'boolean' && col !== 'estatus' && col !== 'estado') {
+                        val = val ? 'Sí' : 'No';
+                    }
+                    html += `<td>${val || '-'}</td>`;
+                });
+
+                // Columna Acciones
+                const rowDataStr = encodeURIComponent(JSON.stringify(row));
+                html += `
+                    <td>
+                        <button class="action-btn edit" onclick="openEditModal('${apiEntity}', '${rowDataStr}')" title="Editar">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+                        <button class="action-btn delete" onclick="deleteEntity('${apiEntity}', ${row.id || row.as_id})" title="Eliminar">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+
+                tr.innerHTML = html;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // ==================== FUNCIONES CRUD GENERICAS ====================
+        async function deleteEntity(endpoint, id) {
+            if (!confirm(`¿Estás completamente seguro de querer eliminar este registro (ID: ${id})? Esta acción no se puede deshacer.`)) return;
+
+            try {
+                // Endpoint example: usuarios, autoservicios -> /usuarios/1
+                let fetchUrl = `/${endpoint}/${id}`;
+                if (endpoint === 'autoservicios') fetchUrl = `/vehiculos-servicios-usuarios/${id}`;
+
+                await apiFetch(fetchUrl, 'DELETE');
+                showToast("Registro eliminado con éxito.");
+
+                // Recargar tabla correspondiente
+                if (endpoint === 'usuarios') loadUsuarios();
+                if (endpoint === 'vehiculos') loadVehiculos();
+                if (endpoint === 'servicios') loadServicios();
+                if (endpoint === 'autoservicios') loadAutoServicios();
+            } catch (err) {
+                showToast(err.message || "Error al eliminar el registro.", true);
+            }
+        }
+
+        // ==================== GESTOR DEL MODAL ====================
+        function closeModal() {
+            document.getElementById('editModal').classList.remove('show');
+            document.getElementById('editForm').reset();
+        }
+
+        function openEditModal(entityType, encodedData) {
+            const data = JSON.parse(decodeURIComponent(encodedData));
+            document.getElementById('editId').value = data.id || data.as_id;
+            document.getElementById('editType').value = entityType;
+
+            const modalBody = document.getElementById('modalBody');
+
+            if (entityType === 'usuarios') {
+                document.getElementById('modalTitle').innerText = `Editar Usuario: ${data.nombre}`;
+                modalBody.innerHTML = `
+                    <div class="input-group"><label>Rol ID</label><input type="number" id="ed_u_rol" value="${data.rol_id}" required></div>
+                    <div class="input-group"><label>Nombre</label><input type="text" id="ed_u_nombre" value="${data.nombre}" required></div>
+                    <div class="input-group"><label>Primer Apellido</label><input type="text" id="ed_u_ape1" value="${data.primer_apellido}" required></div>
+                    <div class="input-group"><label>Segundo Apellido</label><input type="text" id="ed_u_ape2" value="${data.segundo_apellido || ''}"></div>
+                    <div class="input-group"><label>Correo</label><input type="email" id="ed_u_correo" value="${data.correo_electronico}" required></div>
+                    <div class="input-group"><label>Teléfono</label><input type="text" id="ed_u_telefono" value="${data.numero_telefono || ''}"></div>
+                    <div class="input-group">
+                        <label>Estatus Activo</label>
+                        <select id="ed_u_estatus">
+                            <option value="true" ${data.estatus ? 'selected' : ''}>Sí</option>
+                            <option value="false" ${!data.estatus ? 'selected' : ''}>No</option>
+                        </select>
+                    </div>
+                `;
+            } else if (entityType === 'vehiculos') {
+                document.getElementById('modalTitle').innerText = `Editar Vehículo ID: ${data.id}`;
+                modalBody.innerHTML = `
+                    <div class="input-group"><label>Dueño (User ID)</label><input type="number" id="ed_v_usuario" value="${data.usuario_id}" required></div>
+                    <div class="input-group"><label>Marca</label><input type="text" id="ed_v_marca" value="${data.marca}" required></div>
+                    <div class="input-group"><label>Modelo</label><input type="text" id="ed_v_modelo" value="${data.modelo}" required></div>
+                    <div class="input-group"><label>Placa</label><input type="text" id="ed_v_placa" value="${data.placa}" required></div>
+                    <div class="input-group"><label>Color</label><input type="text" id="ed_v_color" value="${data.color || ''}"></div>
+                `;
+            } else if (entityType === 'servicios') {
+                document.getElementById('modalTitle').innerText = `Editar Servicio: ${data.nombre}`;
+                modalBody.innerHTML = `
+                    <div class="input-group"><label>Nombre</label><input type="text" id="ed_s_nombre" value="${data.nombre}" required></div>
+                    <div class="input-group"><label>Descripción</label><input type="text" id="ed_s_desc" value="${data.descripcion || ''}"></div>
+                    <div class="input-group"><label>Costo ($)</label><input type="number" step="0.01" id="ed_s_costo" value="${data.costo}" required></div>
+                    <div class="input-group"><label>Duración (min)</label><input type="number" id="ed_s_duracion" value="${data.duracion || ''}"></div>
+                    <div class="input-group">
+                        <label>Servicio Activo</label>
+                        <select id="ed_s_estado">
+                            <option value="true" ${data.estado ? 'selected' : ''}>Sí</option>
+                            <option value="false" ${!data.estado ? 'selected' : ''}>No</option>
+                        </select>
+                    </div>
+                `;
+            } else if (entityType === 'autoservicios') {
+                document.getElementById('modalTitle').innerText = `Editar Registro: ${data.as_id}`;
+                modalBody.innerHTML = `
+                    <div class="input-group"><label>Vehículo ID</label><input type="number" id="ed_as_vehiculo" value="${data.au_id}" required></div>
+                    <div class="input-group"><label>Servicio ID</label><input type="number" id="ed_as_servicio" value="${data.se_id}" required></div>
+                    <div class="input-group"><label>Operador ID</label><input type="number" id="ed_as_operador" value="${data.us_id}" required></div>
+                    <div class="input-group">
+                        <label>¿Fue Pagado?</label>
+                        <select id="ed_as_pagado">
+                            <option value="true" ${data.as_pagado ? 'selected' : ''}>Pagado</option>
+                            <option value="false" ${!data.as_pagado ? 'selected' : ''}>Pendiente de Pago</option>
+                        </select>
+                    </div>
+                `;
+            }
+
+            document.getElementById('editModal').classList.add('show');
+        }
+
+        document.getElementById('editForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            toggleLoad('btnSaveEdit', true);
+
+            const entType = document.getElementById('editType').value;
+            const entId = document.getElementById('editId').value;
+            let payload = {};
+            let endpointUrl = ``;
+
+            if (entType === 'usuarios') {
+                endpointUrl = `/usuarios/${entId}`;
+                payload = {
+                    rol_id: parseInt(document.getElementById('ed_u_rol').value),
+                    nombre: document.getElementById('ed_u_nombre').value,
+                    primer_apellido: document.getElementById('ed_u_ape1').value,
+                    segundo_apellido: document.getElementById('ed_u_ape2').value || null,
+                    correo_electronico: document.getElementById('ed_u_correo').value,
+                    numero_telefono: document.getElementById('ed_u_telefono').value || null,
+                    estatus: document.getElementById('ed_u_estatus').value === 'true'
+                };
+            } else if (entType === 'vehiculos') {
+                endpointUrl = `/vehiculos/${entId}`;
+                payload = {
+                    usuario_id: parseInt(document.getElementById('ed_v_usuario').value),
+                    marca: document.getElementById('ed_v_marca').value,
+                    modelo: document.getElementById('ed_v_modelo').value,
+                    placa: document.getElementById('ed_v_placa').value,
+                    color: document.getElementById('ed_v_color').value || null
+                };
+            } else if (entType === 'servicios') {
+                endpointUrl = `/servicios/${entId}`;
+                payload = {
+                    nombre: document.getElementById('ed_s_nombre').value,
+                    descripcion: document.getElementById('ed_s_desc').value || null,
+                    costo: parseFloat(document.getElementById('ed_s_costo').value),
+                    duracion: document.getElementById('ed_s_duracion').value ? parseInt(document.getElementById('ed_s_duracion').value) : null,
+                    estado: document.getElementById('ed_s_estado').value === 'true'
+                };
+            } else if (entType === 'autoservicios') {
+                endpointUrl = `/vehiculos-servicios-usuarios/${entId}`;
+                payload = {
+                    vehiculo_id: parseInt(document.getElementById('ed_as_vehiculo').value),
+                    servicio_id: parseInt(document.getElementById('ed_as_servicio').value),
+                    operador_id: parseInt(document.getElementById('ed_as_operador').value),
+                    pagado: document.getElementById('ed_as_pagado').value === 'true'
+                };
+            }
+
+            try {
+                await apiFetch(endpointUrl, 'PUT', payload);
+                showToast("Cambios guardados exitosamente.");
+                closeModal();
+
+                if (entType === 'usuarios') loadUsuarios();
+                if (entType === 'vehiculos') loadVehiculos();
+                if (entType === 'servicios') loadServicios();
+                if (entType === 'autoservicios') loadAutoServicios();
+            } catch (err) {
+                showToast(err.message, true);
+            } finally {
+                toggleLoad('btnSaveEdit', false);
+            }
+        });
+
+        // ==================== USUARIOS ====================
+        document.getElementById("usuarioForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            toggleLoad('btnUsuario', true);
+            const payload = {
+                rol_id: parseInt(document.getElementById('u_rol').value),
+                nombre: document.getElementById('u_nombre').value,
+                primer_apellido: document.getElementById('u_ape1').value,
+                segundo_apellido: document.getElementById('u_ape2').value || null,
+                correo_electronico: document.getElementById('u_correo').value,
+                numero_telefono: document.getElementById('u_telefono').value || null,
+                contrasena: document.getElementById('u_pass').value
+            };
+            try {
+                await apiFetch('/usuarios/', 'POST', payload);
+                showToast("Usuario creado con éxito");
+                document.getElementById("usuarioForm").reset();
+                loadUsuarios();
+            } catch (error) { showToast(error.message, true); }
+            finally { toggleLoad('btnUsuario', false); }
+        });
+
+        async function loadUsuarios() {
+            try {
+                const data = await apiFetch('/usuarios/');
+                populateTable('tableUsuarios', data, ['id', 'nombre', 'correo_electronico', 'numero_telefono', 'estatus'], 'usuarios');
+            } catch (err) { showToast(err.message, true); }
+        }
+
+        // ==================== VEHICULOS ====================
+        document.getElementById("vehiculoForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            toggleLoad('btnVehiculo', true);
+            const payload = {
+                usuario_id: parseInt(document.getElementById('v_usuario').value),
+                marca: document.getElementById('v_marca').value,
+                modelo: document.getElementById('v_modelo').value,
+                placa: document.getElementById('v_placa').value,
+                color: document.getElementById('v_color').value || null
+            };
+            try {
+                await apiFetch('/vehiculos/', 'POST', payload);
+                showToast("Vehículo guardado con éxito");
+                document.getElementById("vehiculoForm").reset();
+                loadVehiculos();
+            } catch (error) { showToast(error.message, true); }
+            finally { toggleLoad('btnVehiculo', false); }
+        });
+
+        async function loadVehiculos() {
+            try {
+                const data = await apiFetch('/vehiculos/');
+                const tableData = data.map(v => ({ ...v, marca_modelo: `${v.marca} ${v.modelo}` }));
+                populateTable('tableVehiculos', tableData, ['id', 'usuario_id', 'marca_modelo', 'placa', 'color'], 'vehiculos');
+            } catch (err) { showToast(err.message, true); }
+        }
+
+        // ==================== SERVICIOS ====================
+        document.getElementById("servicioForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            toggleLoad('btnServicio', true);
+            const payload = {
+                nombre: document.getElementById('s_nombre').value,
+                descripcion: document.getElementById('s_desc').value || null,
+                costo: parseFloat(document.getElementById('s_costo').value),
+                duracion: document.getElementById('s_duracion').value ? parseInt(document.getElementById('s_duracion').value) : null
+            };
+            try {
+                await apiFetch('/servicios/', 'POST', payload);
+                showToast("Servicio agregado al catálogo");
+                document.getElementById("servicioForm").reset();
+                loadServicios();
+            } catch (error) { showToast(error.message, true); }
+            finally { toggleLoad('btnServicio', false); }
+        });
+
+        async function loadServicios() {
+            try {
+                const data = await apiFetch('/servicios/');
+                const tableData = data.map(s => ({ ...s, costo_f: `$${s.costo.toFixed(2)}` }));
+                populateTable('tableServicios', tableData, ['id', 'nombre', 'costo_f', 'duracion', 'estado'], 'servicios');
+            } catch (err) { showToast(err.message, true); }
+        }
+
+        // ==================== AUTOSERVICIOS (REGISTROS) ====================
+        document.getElementById("autoServicioForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            toggleLoad('btnAutoServicio', true);
+
+            const now = new Date();
+            const dateStr = now.toISOString().split('T')[0] + 'T00:00:00.000Z'; // Formato compatible con datetime
+            const timeStr = now.toTimeString().split(' ')[0]; // Formato HH:MM:SS
+
+            const payload = {
+                vehiculo_id: parseInt(document.getElementById('as_vehiculo').value),
+                servicio_id: parseInt(document.getElementById('as_servicio').value),
+                operador_id: parseInt(document.getElementById('as_operador').value),
+                cajero_id: 1, // Por ahora harcodeamos un cajero
+                fecha: dateStr,
+                hora: timeStr
+            };
+            try {
+                await apiFetch('/vehiculos-servicios-usuarios/', 'POST', payload);
+                showToast("Registro guardado con éxito");
+                document.getElementById("autoServicioForm").reset();
+                loadAutoServicios();
+            } catch (error) { showToast(error.message, true); }
+            finally { toggleLoad('btnAutoServicio', false); }
+        });
+
+        async function loadAutoServicios() {
+            try {
+                const data = await apiFetch('/vehiculos-servicios-usuarios/');
+                // Transformaciones visuales para la tabla de Autoservicios
+                const tableData = data.map(as => {
+                    const d = new Date(as.as_fecha);
+                    const fechaFmt = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+                    const horaFmt = as.as_hora ? String(as.as_hora).substring(0, 5) : '--:--';
+
+                    return {
+                        ...as,
+                        id: as.as_id, // Para que editModal pueda agarrarlo universalmente
+                        fecha_hora: `${fechaFmt} <span style="font-size:0.75rem; color:#94a3b8">@ ${horaFmt}</span>`,
+                        pagado_status: as.as_pagado ? 'Sí' : 'No'
+                    };
+                });
+                populateTable('tableAutoServicios', tableData, ['as_id', 'fecha_hora', 'au_id', 'se_id', 'us_id', 'pagado_status'], 'autoservicios');
+            } catch (err) { showToast(err.message, true); }
         }
     </script>
-
 </body>
 
 </html>
